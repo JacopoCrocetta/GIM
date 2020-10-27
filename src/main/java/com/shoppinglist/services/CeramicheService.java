@@ -1,7 +1,7 @@
-package com.accenture.shoppinglist.services;
+package com.shoppinglist.services;
 
-import com.accenture.shoppinglist.entities.CeramicheEntity;
-import com.accenture.shoppinglist.repositories.CeramicheRepository;
+import com.shoppinglist.entities.CeramicheEntity;
+import com.shoppinglist.repositories.CeramicheRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

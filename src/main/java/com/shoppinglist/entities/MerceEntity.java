@@ -1,4 +1,4 @@
-package com.accenture.shoppinglist.entities;
+package com.shoppinglist.entities;
 
 
 import lombok.Data;

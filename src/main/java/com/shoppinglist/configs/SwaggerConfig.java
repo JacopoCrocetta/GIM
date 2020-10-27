@@ -1,4 +1,4 @@
-package com.accenture.shoppinglist.configs;
+package com.shoppinglist.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ public class SwaggerConfig {
     public Docket api() { 
         return new Docket(DocumentationType.SWAGGER_2)  
           .select()                                  
-          .apis(RequestHandlerSelectors.basePackage("com.accenture.shoppinglist.controllers"))              
+          .apis(RequestHandlerSelectors.basePackage("com.shoppinglist.controllers"))              
           .paths(PathSelectors.any())                          
           .build();                                           
     }

@@ -1,7 +1,7 @@
-package com.accenture.shoppinglist.controllers;
+package com.shoppinglist.controllers;
 
-import com.accenture.shoppinglist.entities.CeramicheEntity;
-import com.accenture.shoppinglist.services.CeramicheService;
+import com.shoppinglist.entities.CeramicheEntity;
+import com.shoppinglist.services.CeramicheService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

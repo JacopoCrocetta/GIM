@@ -1,4 +1,4 @@
-package com.accenture.shoppinglist;
+package com.shoppinglist;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

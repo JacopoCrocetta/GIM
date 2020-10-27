@@ -1,6 +1,6 @@
-package com.accenture.shoppinglist.repositories;
+package com.shoppinglist.repositories;
 
-import com.accenture.shoppinglist.entities.CeramicheEntity;
+import com.shoppinglist.entities.CeramicheEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

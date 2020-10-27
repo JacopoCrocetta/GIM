@@ -1,7 +1,7 @@
-package com.accenture.shoppinglist.services;
+package com.shoppinglist.services;
 
-import com.accenture.shoppinglist.entities.MerceEntity;
-import com.accenture.shoppinglist.repositories.MerceRepository;
+import com.shoppinglist.entities.MerceEntity;
+import com.shoppinglist.repositories.MerceRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

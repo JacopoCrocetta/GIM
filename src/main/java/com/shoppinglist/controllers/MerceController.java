@@ -1,7 +1,7 @@
-package com.accenture.shoppinglist.controllers;
+package com.shoppinglist.controllers;
 
-import com.accenture.shoppinglist.entities.MerceEntity;
-import com.accenture.shoppinglist.services.MerceService;
+import com.shoppinglist.entities.MerceEntity;
+import com.shoppinglist.services.MerceService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import javassist.NotFoundException;
