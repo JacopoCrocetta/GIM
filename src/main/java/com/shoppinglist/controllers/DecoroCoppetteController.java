@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.ApiResponses;
@@ -16,7 +17,7 @@ import io.swagger.annotations.ApiResponse;
 @RequestMapping("/decoro-coppette")
 public class DecoroCoppetteController {
     @Autowired
-    DecoroCoppetteeService decoroService;
+    DecoroCoppetteService decoroService;
 
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Retituisce tutti i prodotti che ci sono a DB in formato json"),
@@ -36,7 +37,7 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public DecoroCoppetteEntity addShoppingItem(@RequestBody CeramicheEntity item) {
+    public DecoroCoppetteEntity addShoppingItem(@RequestBody DecoroCoppetteEntity item) {
         return decoroService.addShoppingItem(item);
     }
 

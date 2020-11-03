@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.ApiResponses;
@@ -36,7 +37,7 @@ public class DecoroVassoiController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public DecoroVassoiEntity addShoppingItem(@RequestBody CeramicheEntity item) {
+    public DecoroVassoiEntity addShoppingItem(@RequestBody DecoroVassoiEntity item) {
         return decoroService.addShoppingItem(item);
     }
 
