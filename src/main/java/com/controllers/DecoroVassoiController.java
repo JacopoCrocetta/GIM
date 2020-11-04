@@ -1,23 +1,23 @@
-package com.shoppinglist.controllers;
+package com.controllers;
 
-import com.shoppinglist.entities.CeramicheEntity;
-import com.shoppinglist.services.CeramicheService;
+import com.entities.DecoroVassoiEntity;
+import com.services.DecoroVassoiService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 
-@RestController
-@RequestMapping("/ceramiche")
-public class CeramicheController {
-
+@Controller
+@RequestMapping("/decoro-vassoi")
+public class DecoroVassoiController {
     @Autowired
-    CeramicheService ceramicheService;
+    DecoroVassoiService decoroService;
 
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Retituisce tutti i prodotti che ci sono a DB in formato json"),
@@ -26,8 +26,8 @@ public class CeramicheController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<CeramicheEntity> getShoppingItems(){
-        return ceramicheService.getShoppingItems();
+    public Iterable<DecoroVassoiEntity> getShoppingItems(){
+        return decoroService.getShoppingItems();
     }
 
     @ApiResponses(value = {
@@ -37,8 +37,8 @@ public class CeramicheController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public CeramicheEntity addShoppingItem(@RequestBody CeramicheEntity item) {
-        return ceramicheService.addShoppingItem(item);
+    public DecoroVassoiEntity addShoppingItem(@RequestBody DecoroVassoiEntity item) {
+        return decoroService.addShoppingItem(item);
     }
 
     @ApiResponses(value = {
@@ -50,12 +50,11 @@ public class CeramicheController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteShoppingItem(@PathVariable int id) throws NotFoundException {
         try {
-            ceramicheService.deleteShoppingItem(id);
+            decoroService.deleteShoppingItem(id);
             return new ResponseEntity<String>(HttpStatus.OK);
         }
         catch(NotFoundException e){
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
     }
-
 }

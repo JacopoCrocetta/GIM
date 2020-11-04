@@ -1,7 +1,7 @@
-package com.shoppinglist.controllers;
+package com.controllers;
 
-import com.shoppinglist.entities.DecoroCoppetteEntity;
-import com.shoppinglist.services.DecoroCoppetteService;
+import com.entities.DecoroCoppetteEntity;
+import com.services.DecoroCoppetteService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

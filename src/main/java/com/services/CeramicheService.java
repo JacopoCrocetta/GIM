@@ -1,7 +1,7 @@
-package com.shoppinglist.services;
+package com.services;
 
-import com.shoppinglist.entities.DecoroCoppetteEntity;
-import com.shoppinglist.repositories.DecoroCoppetteRepository;
+import com.entities.CeramicheEntity;
+import com.repositories.CeramicheRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,20 +9,21 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class DecoroCoppetteService {
-    @Autowired
-    private DecoroCoppetteRepository repository;
+public class CeramicheService {
 
-    public Iterable<DecoroCoppetteEntity> getShoppingItems() {
+    @Autowired
+    private CeramicheRepository repository;
+
+    public Iterable<CeramicheEntity> getShoppingItems() {
         return repository.findAll();
     }
 
-    public DecoroCoppetteEntity addShoppingItem(DecoroCoppetteEntity item) {
+    public CeramicheEntity addShoppingItem(CeramicheEntity item) {
         return repository.save(item);
     }
 
     public void deleteShoppingItem(Integer id) throws NotFoundException {
-        Optional<DecoroCoppetteEntity> itemToDelete = repository.findById(id);
+        Optional<CeramicheEntity> itemToDelete = repository.findById(id);
         if(itemToDelete.isEmpty()){
            throw new NotFoundException("Item not found");
         }

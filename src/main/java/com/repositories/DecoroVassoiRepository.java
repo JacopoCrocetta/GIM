@@ -1,6 +1,6 @@
-package com.shoppinglist.repositories;
+package com.repositories;
 
-import com.shoppinglist.entities.DecoroVassoiEntity;
+import com.entities.DecoroVassoiEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

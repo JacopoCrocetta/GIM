@@ -1,4 +1,4 @@
-package com.shoppinglist.entities;
+package com.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

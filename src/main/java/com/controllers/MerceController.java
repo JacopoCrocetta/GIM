@@ -1,7 +1,7 @@
-package com.shoppinglist.controllers;
+package com.controllers;
 
-import com.shoppinglist.entities.MerceEntity;
-import com.shoppinglist.services.MerceService;
+import com.entities.MerceEntity;
+import com.services.MerceService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import javassist.NotFoundException;

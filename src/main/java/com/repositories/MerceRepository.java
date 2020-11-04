@@ -1,6 +1,6 @@
-package com.shoppinglist.repositories;
+package com.repositories;
 
-import com.shoppinglist.entities.MerceEntity;
+import com.entities.MerceEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
