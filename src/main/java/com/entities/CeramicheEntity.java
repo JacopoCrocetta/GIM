@@ -9,6 +9,8 @@ import javax.persistence.*;
 @Table(name = "ShoppingItems")
 @Data
 @NoArgsConstructor
+@Getter
+@Setter
 public class CeramicheEntity {
 
     @Id
