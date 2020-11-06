@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/decoro-coppette")
 public class DecoroCoppetteController {
@@ -49,7 +51,7 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<DecoroCoppetteEntity> findDecoroById(@PathVariable int id){
+    public Optional<DecoroCoppetteEntity> findDecoroById(@PathVariable int id){
         return decoroService.getDecoriItemById(id);
     }
 
@@ -61,8 +63,8 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public DecoroCoppetteEntity addShoppingItem(@RequestBody DecoroCoppetteEntity item) {
-        return decoroService.addShoppingItem(item);
+    public DecoroCoppetteEntity addDecoroItem(@RequestBody DecoroCoppetteEntity item) {
+        return decoroService.addDecoroItem(item);
     }
 
     @ApiResponses(value = {
@@ -72,7 +74,7 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public DecoroCoppetteEntity addShoppingItem(@RequestBody Iterable<DecoroCoppetteEntity> itemsToAdd) {
+    public Iterable<DecoroCoppetteEntity> addShoppingItem(@RequestBody Iterable<DecoroCoppetteEntity> itemsToAdd) {
         return decoroService.addDecoriItems(itemsToAdd);
     }
 
@@ -112,7 +114,7 @@ public class DecoroCoppetteController {
     }
 
     @DeleteMapping(value = "/deleteAll")
-    public ResponseEntity<String> deleteShoppingItem(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> deleteShoppingItem() throws NotFoundException {
         decoroService.deleteAllDecoroItems();
         return new ResponseEntity<String>(HttpStatus.OK);
     }
@@ -124,7 +126,7 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @DeleteMapping(value = "/deleteAllSelectedDecoroItems")
-    public ResponseEntity<String> deleteShoppingItem(@RequestBody Iterable<Integer> ids) {
+    public ResponseEntity<String> deleteShoppingItem(@RequestBody Iterable<DecoroCoppetteEntity> ids) {
         decoroService.deleteAllSelectedDecoroItems(ids);
         return new ResponseEntity<String>(HttpStatus.OK);
     }

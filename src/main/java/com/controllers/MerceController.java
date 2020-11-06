@@ -29,6 +29,12 @@ public class MerceController {
         return service.getShoppingItems();
     }
 
+    //TODO: finire GETs
+    /*
+    getDecoriItemsByIDS
+    getDecoriItemById
+     */
+
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "{\"id\": 0,\"product\": \"string\",\"quantity\": 0}"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -37,8 +43,13 @@ public class MerceController {
     })
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public MerceEntity addShoppingItem(@RequestBody MerceEntity item) {
-        return service.addShoppingItem(item);
+        return service.addMerceItem(item);
     }
+
+    //TODO: finire PUTs
+    /*
+    addMerceItems
+     */
 
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "ok"),
@@ -56,4 +67,11 @@ public class MerceController {
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    //TODO: finire DELETEs
+    /*
+    deleteDecoroItemByEntity
+    deleteAllDecoroItems
+    deleteAllSelectedDecoroItems
+     */
 }

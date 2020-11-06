@@ -23,7 +23,7 @@ public class CeramicheService {
         return repository.findAllById(ids);
     }
 
-    public Optional<CeramicheEntity> getCeramicheItemById (Int id){
+    public Optional<CeramicheEntity> getCeramicheItemById (int id){
         return repository.findById(id);
     }
 

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/ceramiche")
 public class CeramicheController {
@@ -49,8 +51,8 @@ public class CeramicheController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<CeramicheEntity> findCeramicheById(@PathVariable int id){
-        return ceramicheService.getCeramicheItemById(ids);
+    public Optional<CeramicheEntity> findCeramicheById(@PathVariable int id){
+        return ceramicheService.getCeramicheItemById(id);
     }
 
     //PUT
@@ -72,7 +74,7 @@ public class CeramicheController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public CeramicheEntity saveAllCeramicaItem(@RequestBody Iterable<CeramicheEntity> items) {
+    public Iterable<CeramicheEntity> saveAllCeramicaItem(@RequestBody Iterable<CeramicheEntity> items) {
         return ceramicheService.addCeramicheItems(items);
     }
 
@@ -113,8 +115,8 @@ public class CeramicheController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @DeleteMapping(value = "/deleteAllByIds")
-    public ResponseEntity<String> deleteShoppingItem(@RequestBody Iterable<Integer> ids){
-        ceramicheService.deleteAll(ids);
+    public ResponseEntity<String> deleteShoppingItem(@RequestBody Iterable<CeramicheEntity> ids){
+        ceramicheService.deleteAllSelectedCeramicheItems(ids);
         return new ResponseEntity<String>(HttpStatus.OK);
     }
 

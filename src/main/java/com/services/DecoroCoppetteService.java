@@ -22,7 +22,7 @@ public class DecoroCoppetteService {
         return repository.findAllById(ids);
     }
 
-    public Optional<DecoroCoppetteEntity> getDecoriItemById (Int id){
+    public Optional<DecoroCoppetteEntity> getDecoriItemById (int id){
         return repository.findById(id);
     }
 

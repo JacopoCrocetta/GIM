@@ -23,7 +23,7 @@ public class MerceService {
         return repository.findAllById(ids);
     }
 
-    public Optional<MerceEntity> getDecoriItemById (Int id){
+    public Optional<MerceEntity> getDecoriItemById (int id){
         return repository.findById(id);
     }
 

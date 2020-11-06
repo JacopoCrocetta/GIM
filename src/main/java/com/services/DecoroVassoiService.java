@@ -14,7 +14,7 @@ public class DecoroVassoiService {
     private DecoroVassoiRepository repository;
 
     //SEZIONE GET
-    public Iterable<DecoroVassoiEntity> getShoppingItems() {
+    public Iterable<DecoroVassoiEntity> getAllDecoriItems() {
         return repository.findAll();
     }
 
@@ -22,7 +22,7 @@ public class DecoroVassoiService {
         return repository.findAllById(ids);
     }
 
-    public Optional<DecoroVassoiEntity> getDecoriItemById (Int id){
+    public Optional<DecoroVassoiEntity> getDecoriItemById (int id){
         return repository.findById(id);
     }
 
