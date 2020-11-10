@@ -60,7 +60,6 @@ public class DecoroVassoiController {
         return decoroService.addDecoroItem(item);
     }
 
-    //TODO:sezione PUT
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "{\"id\": 0,\"product\": \"string\",\"quantity\": 0}"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),

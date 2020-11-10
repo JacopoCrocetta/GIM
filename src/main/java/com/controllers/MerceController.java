@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/merce")
 public class MerceController {
@@ -29,11 +31,27 @@ public class MerceController {
         return service.getShoppingItems();
     }
 
-    //TODO: finire GETs
-    /*
-    getDecoriItemsByIDS
-    getDecoriItemById
-     */
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retituisce tutti i prodotti che ci sono a DB in formato json"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<MerceEntity> findAllMerceByIDS(@RequestBody Iterable<Integer> ids){
+        return service.getDecoriItemsByIDS(ids);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retituisce tutti i prodotti che ci sono a DB in formato json"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public Optional<MerceEntity> findAllMerceById(@PathVariable int id){
+        return service.getDecoriItemById(id);
+    }
 
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "{\"id\": 0,\"product\": \"string\",\"quantity\": 0}"),
@@ -46,10 +64,14 @@ public class MerceController {
         return service.addMerceItem(item);
     }
 
-    //TODO: finire PUTs
-    /*
-    addMerceItems
-     */
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "{\"id\": 0,\"product\": \"string\",\"quantity\": 0}"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<MerceEntity> addMerceItems(@RequestBody Iterable<MerceEntity> item) {return service.addMerceItems(item);}
 
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "ok"),
