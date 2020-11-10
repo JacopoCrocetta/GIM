@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.entities.DecoroVassoiEntity;
 import com.entities.MerceEntity;
 import com.services.MerceService;
 import io.swagger.annotations.ApiResponse;
@@ -90,10 +91,38 @@ public class MerceController {
         }
     }
 
-    //TODO: finire DELETEs
-    /*
-    deleteDecoroItemByEntity
-    deleteAllDecoroItems
-    deleteAllSelectedDecoroItems
-     */
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "ok"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
+    @DeleteMapping(value = "/deleteDecoroItemByEntity")
+    public ResponseEntity<String> deleteDecoroItemByEntity(@RequestBody MerceEntity item) throws NotFoundException {
+        try {
+            service.deleteDecoroItemByEntity(item);
+            return new ResponseEntity<String>(HttpStatus.OK);
+        }
+        catch(NotFoundException e){
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping(value = "/deleteAll")
+    public ResponseEntity<String> deleteShoppingItem() throws NotFoundException {
+        service.deleteAllDecoroItems();
+        return new ResponseEntity<String>(HttpStatus.OK);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "ok"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
+    @DeleteMapping(value = "/deleteAllSelectedDecoroItems")
+    public ResponseEntity<String> deleteShoppingItem(@RequestBody Iterable<MerceEntity> ids) {
+        service.deleteAllSelectedDecoroItems(ids);
+        return new ResponseEntity<String>(HttpStatus.OK);
+    }
 }
