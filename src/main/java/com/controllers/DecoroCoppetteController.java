@@ -4,6 +4,8 @@ import com.entities.DecoroCoppetteEntity;
 import com.services.DecoroCoppetteService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ import java.util.Optional;
 public class DecoroCoppetteController {
     @Autowired
     DecoroCoppetteService decoroService;
+
+    //TODO: Generare value su ogni f...... metodo
 
     //GET
     @ApiResponses(value = {
