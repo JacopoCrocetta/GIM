@@ -67,7 +67,7 @@ public class DecoroVassoiController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<DecoroVassoiEntity> addShoppingItem(@RequestBody Iterable<DecoroVassoiEntity> itemsToAdd) {
+    public Iterable<DecoroVassoiEntity> addDecoriVassoi(@RequestBody Iterable<DecoroVassoiEntity> itemsToAdd) {
         return decoroService.addDecoriItems(itemsToAdd);
     }
 
@@ -78,7 +78,7 @@ public class DecoroVassoiController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteShoppingItem(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> deleteDecoroVassoiById(@PathVariable int id) throws NotFoundException {
         try {
             decoroService.deleteShoppingItem(id);
             return new ResponseEntity<String>(HttpStatus.OK);
@@ -106,7 +106,7 @@ public class DecoroVassoiController {
     }
 
     @DeleteMapping(value = "/deleteAll")
-    public ResponseEntity<String> deleteShoppingItem() throws NotFoundException {
+    public ResponseEntity<String> deleteAllDecoriVassoi() throws NotFoundException {
         decoroService.deleteAllDecoroItems();
         return new ResponseEntity<String>(HttpStatus.OK);
     }
@@ -118,7 +118,7 @@ public class DecoroVassoiController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @DeleteMapping(value = "/deleteAllSelectedDecoroItems")
-    public ResponseEntity<String> deleteShoppingItem(@RequestBody Iterable<DecoroVassoiEntity> ids) {
+    public ResponseEntity<String> deleteDecoriVassoiByIds(@RequestBody Iterable<DecoroVassoiEntity> ids) {
         decoroService.deleteAllSelectedDecoroItems(ids);
         return new ResponseEntity<String>(HttpStatus.OK);
     }

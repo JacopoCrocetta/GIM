@@ -29,7 +29,7 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<DecoroCoppetteEntity> getShoppingItems(){
+    public Iterable<DecoroCoppetteEntity> getAllDecoriCoppette(){
         return decoroService.getAllDecoriItems();
     }
 
@@ -74,7 +74,7 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<DecoroCoppetteEntity> addShoppingItem(@RequestBody Iterable<DecoroCoppetteEntity> itemsToAdd) {
+    public Iterable<DecoroCoppetteEntity> addDecoriCoppette(@RequestBody Iterable<DecoroCoppetteEntity> itemsToAdd) {
         return decoroService.addDecoriItems(itemsToAdd);
     }
 
