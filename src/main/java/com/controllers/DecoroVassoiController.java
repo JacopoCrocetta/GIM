@@ -1,8 +1,9 @@
 package com.controllers;
 
-import com.entities.DecoroCoppetteEntity;
 import com.entities.DecoroVassoiEntity;
 import com.services.DecoroVassoiService;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,9 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.ApiResponse;
 
 import java.util.Optional;
 
@@ -30,12 +28,18 @@ public class DecoroVassoiController {
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findAllDecoriVassoi", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<DecoroVassoiEntity> getAllDecoriItems(){
         return decoroService.getAllDecoriItems();
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retituisce tutti i prodotti che ci sono a DB in formato json"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
+    @GetMapping(value = "/findAllDecoriVassoiByIds", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<DecoroVassoiEntity> findAllDecoriByIds(@RequestBody Iterable<Integer> ids){
         return decoroService.getDecoriItemsByIDS(ids);
     }
@@ -57,7 +61,7 @@ public class DecoroVassoiController {
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/insertDecoriVassoiItem", produces = MediaType.APPLICATION_JSON_VALUE)
     public DecoroVassoiEntity addShoppingItem(@RequestBody DecoroVassoiEntity item) {
         return decoroService.addDecoroItem(item);
     }
@@ -68,7 +72,7 @@ public class DecoroVassoiController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/insertAllDecoriVassoiItem",produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<DecoroVassoiEntity> addDecoriVassoi(@RequestBody Iterable<DecoroVassoiEntity> itemsToAdd) {
         return decoroService.addDecoriItems(itemsToAdd);
     }
@@ -107,6 +111,12 @@ public class DecoroVassoiController {
         }
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "ok"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
     @DeleteMapping(value = "/deleteAll")
     public ResponseEntity<String> deleteAllDecoriVassoi() throws NotFoundException {
         decoroService.deleteAllDecoroItems();
@@ -124,5 +134,4 @@ public class DecoroVassoiController {
         decoroService.deleteAllSelectedDecoroItems(ids);
         return new ResponseEntity<String>(HttpStatus.OK);
     }
-
 }

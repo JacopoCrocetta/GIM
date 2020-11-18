@@ -28,7 +28,7 @@ public class MerceController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findAllMerce",produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<MerceEntity> getAllMerci(){
         return service.getAllMerceItems();
     }
@@ -39,7 +39,7 @@ public class MerceController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findAllMerceByIds",produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<MerceEntity> findAllMerciByIDS(@RequestBody Iterable<Integer> ids){
         return service.getMerceItemsByIDS(ids);
     }
@@ -50,7 +50,7 @@ public class MerceController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findAllDecoriVassoiById",produces = MediaType.APPLICATION_JSON_VALUE)
     public Optional<MerceEntity> findMerceById(@PathVariable int id){
         return service.getMerceItemById(id);
     }
@@ -61,7 +61,7 @@ public class MerceController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/insertMerceItem", produces = MediaType.APPLICATION_JSON_VALUE)
     public MerceEntity addMerceItem(@RequestBody MerceEntity item) {
         return service.addMerceItem(item);
     }
@@ -72,7 +72,7 @@ public class MerceController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/insertMoreMerceItems",produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<MerceEntity> addMerceItems(@RequestBody Iterable<MerceEntity> items) {return service.addMerceItems(items);}
 
     @ApiResponses(value = {
@@ -109,6 +109,12 @@ public class MerceController {
         }
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "ok"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
     @DeleteMapping(value = "/deleteAll")
     public ResponseEntity<String> deleteAllMerceItems() throws NotFoundException {
         service.deleteAllMerceItems();

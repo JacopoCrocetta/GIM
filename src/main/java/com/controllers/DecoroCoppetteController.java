@@ -2,18 +2,15 @@ package com.controllers;
 
 import com.entities.DecoroCoppetteEntity;
 import com.services.DecoroCoppetteService;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.ApiResponse;
 
 import java.util.Optional;
 
@@ -32,7 +29,7 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findAllDecoriCoppette",produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<DecoroCoppetteEntity> getAllDecoriCoppette(){
         return decoroService.getAllDecoriItems();
     }
@@ -43,7 +40,7 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findAllDecoriByIds",produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<DecoroCoppetteEntity> findAllDecoriByIds(@RequestBody Iterable<Integer> ids){
         return decoroService.getDecoriItemsByIDS(ids);
     }
@@ -66,7 +63,8 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/insertOne" +
+            "CeramicheItem",produces = MediaType.APPLICATION_JSON_VALUE)
     public DecoroCoppetteEntity addDecoroItem(@RequestBody DecoroCoppetteEntity item) {
         return decoroService.addDecoroItem(item);
     }
@@ -77,7 +75,7 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/insertAllCeramicheItem",produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<DecoroCoppetteEntity> addDecoriCoppette(@RequestBody Iterable<DecoroCoppetteEntity> itemsToAdd) {
         return decoroService.addDecoriItems(itemsToAdd);
     }
@@ -106,7 +104,7 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @DeleteMapping(value = "/deleteDecoroItemByEntity")
+    @DeleteMapping(value = "/deleteDecoroCoppetteItemByEntity")
     public ResponseEntity<String> deleteDecoroItemByEntity(@RequestBody DecoroCoppetteEntity item) throws NotFoundException {
         try {
             decoroService.deleteDecoroItemByEntity(item);
@@ -117,7 +115,7 @@ public class DecoroCoppetteController {
         }
     }
 
-    @DeleteMapping(value = "/deleteAll")
+    @DeleteMapping(value = "/deleteAllDecoriCoppette")
     public ResponseEntity<String> deleteShoppingItem() throws NotFoundException {
         decoroService.deleteAllDecoroItems();
         return new ResponseEntity<String>(HttpStatus.OK);

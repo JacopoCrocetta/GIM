@@ -30,7 +30,7 @@ public class CeramicheController {
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @GetMapping(value = "/ciaone", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findAllCeramiche", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<CeramicheEntity> findAllCeramiche(){
         return ceramicheService.getAllCeramicheItems();
     }
@@ -41,7 +41,7 @@ public class CeramicheController {
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @GetMapping(value = "/ciao",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findCeramicheByIds",produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<CeramicheEntity> findAllCeramicheByIds(@RequestBody Iterable<Integer> ids){
         return ceramicheService.getCeramicheItemsByIDS(ids);
     }
@@ -64,7 +64,7 @@ public class CeramicheController {
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @PutMapping(value = "/ciaoi",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/insertCeramiche",produces = MediaType.APPLICATION_JSON_VALUE)
     public CeramicheEntity saveCeramicaItem(@RequestBody CeramicheEntity item) {
         return ceramicheService.addCeramicheItem(item);
     }
@@ -75,7 +75,7 @@ public class CeramicheController {
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @PutMapping(value = "/ciaoa",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/insertLotOfCeramiche",produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<CeramicheEntity> saveAllCeramicaItem(@RequestBody Iterable<CeramicheEntity> items) {
         return ceramicheService.addCeramicheItems(items);
     }
