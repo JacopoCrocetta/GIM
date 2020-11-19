@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "MerceItems")
@@ -28,4 +29,7 @@ public class MerceEntity {
     private String codMerce;
     private String note;
     private String codOperatore;
+
+    LocalDateTime DatIns;
+    LocalDateTime DatUpd;
 }
