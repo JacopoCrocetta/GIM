@@ -18,7 +18,6 @@ import java.util.Optional;
 @RequestMapping("/ceramiche")
 public class CeramicheController {
 
-    //TODO: Generare value su ogni f...... metodo
 
     @Autowired
     CeramicheService ceramicheService;

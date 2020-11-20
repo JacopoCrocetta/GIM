@@ -20,8 +20,6 @@ public class DecoroCoppetteController {
     @Autowired
     DecoroCoppetteService decoroService;
 
-    //TODO: Generare value su ogni f...... metodo
-
     //GET
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Retituisce tutti i prodotti che ci sono a DB in formato json"),
@@ -75,7 +73,7 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @PutMapping(value = "/insertAllCeramicheItem",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/insertAllDecoriItems",produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<DecoroCoppetteEntity> addDecoriCoppette(@RequestBody Iterable<DecoroCoppetteEntity> itemsToAdd) {
         return decoroService.addDecoriItems(itemsToAdd);
     }

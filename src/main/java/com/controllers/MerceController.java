@@ -20,7 +20,6 @@ public class MerceController {
     @Autowired
     MerceService service;
 
-    //TODO: Generare value su ogni f...... metodo
 
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retituisce tutti i prodotti che ci sono a DB in formato json"),
