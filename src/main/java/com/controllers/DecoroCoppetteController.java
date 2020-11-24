@@ -19,7 +19,6 @@ public class DecoroCoppetteController {
     @Autowired
     DecoroCoppetteService decoroService;
 
-
     //GET
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Restituisce tutti i prodotti che ci sono a DB in formato json"),
