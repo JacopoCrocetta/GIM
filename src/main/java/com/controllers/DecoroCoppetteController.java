@@ -14,13 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/coppette")
 public class DecoroCoppetteController {
     @Autowired
     DecoroCoppetteService decoroService;
 
-    //TODO: Generare value su ogni f...... metodo
 
     //GET
     @ApiResponses(value = {
