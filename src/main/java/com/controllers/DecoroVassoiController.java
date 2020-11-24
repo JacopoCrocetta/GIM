@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/decoro-vassoi")
+@RequestMapping("/vassoi")
 public class DecoroVassoiController {
     @Autowired
     DecoroVassoiService decoroService;

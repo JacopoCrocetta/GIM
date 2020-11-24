@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/decoro-coppette")
+@RequestMapping("/coppette")
 public class DecoroCoppetteController {
     @Autowired
     DecoroCoppetteService decoroService;
+
+    //TODO: Generare value su ogni f...... metodo
 
     //GET
     @ApiResponses(value = {
@@ -73,7 +75,7 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @PutMapping(value = "/insertAllDecoriItems",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/insertAllCeramicheItem",produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<DecoroCoppetteEntity> addDecoriCoppette(@RequestBody Iterable<DecoroCoppetteEntity> itemsToAdd) {
         return decoroService.addDecoriItems(itemsToAdd);
     }
