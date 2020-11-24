@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/coppette")
+@RequestMapping("/DecoroCoppette")
 public class DecoroCoppetteController {
     @Autowired
     DecoroCoppetteService decoroService;
@@ -60,10 +60,10 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 200, message = "{\"id\": 0,\"product\": \"string\",\"quantity\": 0}"),
         @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+        @ApiResponse(code = 400, message = "The request you are trying to put is wrong!")
     })
-    @PutMapping(value = "/insertOne" +
-            "CeramicheItem",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/insertOneCeramicheItem",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public DecoroCoppetteEntity addDecoroItem(@RequestBody DecoroCoppetteEntity item) {
         return decoroService.addDecoroItem(item);
     }
