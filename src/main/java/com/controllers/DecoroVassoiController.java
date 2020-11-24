@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -22,7 +21,7 @@ public class DecoroVassoiController {
 
 
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Retituisce tutti i prodotti che ci sono a DB in formato json"),
+        @ApiResponse(code = 200, message = "Restituisce tutti i prodotti che ci sono a DB in formato json"),
         @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
@@ -33,7 +32,7 @@ public class DecoroVassoiController {
     }
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retituisce tutti i prodotti che ci sono a DB in formato json"),
+            @ApiResponse(code = 200, message = "Restituisce tutti i prodotti che ci sono a DB in formato json"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
@@ -44,7 +43,7 @@ public class DecoroVassoiController {
     }
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retituisce tutti i prodotti che ci sono a DB in formato json"),
+            @ApiResponse(code = 200, message = "Restituisce tutti i prodotti che ci sono a DB in formato json"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
@@ -86,10 +85,10 @@ public class DecoroVassoiController {
     public ResponseEntity<String> deleteDecoroVassoiById(@PathVariable int id) throws NotFoundException {
         try {
             decoroService.deleteShoppingItem(id);
-            return new ResponseEntity<String>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch(NotFoundException e){
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -103,10 +102,10 @@ public class DecoroVassoiController {
     public ResponseEntity<String> deleteDecoroItemByEntity(@RequestBody DecoroVassoiEntity item) throws NotFoundException {
         try {
             decoroService.deleteDecoroItemByEntity(item);
-            return new ResponseEntity<String>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch(NotFoundException e){
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -119,7 +118,7 @@ public class DecoroVassoiController {
     @DeleteMapping(value = "/deleteAll")
     public ResponseEntity<String> deleteAllDecoriVassoi() throws NotFoundException {
         decoroService.deleteAllDecoroItems();
-        return new ResponseEntity<String>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -131,6 +130,6 @@ public class DecoroVassoiController {
     @DeleteMapping(value = "/deleteAllSelectedDecoroItems")
     public ResponseEntity<String> deleteDecoriVassoiByIds(@RequestBody Iterable<DecoroVassoiEntity> ids) {
         decoroService.deleteAllSelectedDecoroItems(ids);
-        return new ResponseEntity<String>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

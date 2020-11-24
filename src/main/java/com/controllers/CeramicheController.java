@@ -35,7 +35,7 @@ public class CeramicheController {
     }
 
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Retituisce tutti i prodotti che ci sono a DB in formato json"),
+        @ApiResponse(code = 200, message = "Restituisce tutti i prodotti che ci sono a DB in formato json"),
         @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
@@ -46,7 +46,7 @@ public class CeramicheController {
     }
 
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Retituisce tutti i prodotti che ci sono a DB in formato json"),
+        @ApiResponse(code = 200, message = "Restituisce tutti i prodotti che ci sono a DB in formato json"),
         @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
@@ -87,13 +87,13 @@ public class CeramicheController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteElementById(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> deleteElementById(@PathVariable int id){
         try {
             ceramicheService.deleteCeramicaItemById(id);
-            return new ResponseEntity<String>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch(NotFoundException e){
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -106,7 +106,7 @@ public class CeramicheController {
     @DeleteMapping(value = "/deleteAll")
     public ResponseEntity<String> deleteAllElement() {
         ceramicheService.deleteAllCeramicheItems();
-        return new ResponseEntity<String>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -118,7 +118,7 @@ public class CeramicheController {
     @DeleteMapping(value = "/deleteAllByIds")
     public ResponseEntity<String> deleteShoppingItem(@RequestBody Iterable<CeramicheEntity> ids){
         ceramicheService.deleteAllSelectedCeramicheItems(ids);
-        return new ResponseEntity<String>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -128,13 +128,13 @@ public class CeramicheController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @DeleteMapping(value = "/deleteOneItem")
-    public ResponseEntity<String> deleteShoppingItem(@RequestBody CeramicheEntity itemToDelete) throws NotFoundException {
+    public ResponseEntity<String> deleteShoppingItem(@RequestBody CeramicheEntity itemToDelete){
         try {
             ceramicheService.deleteCeramicheItemByEntity(itemToDelete);
-            return new ResponseEntity<String>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch(NotFoundException e){
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

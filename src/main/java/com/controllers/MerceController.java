@@ -22,7 +22,7 @@ public class MerceController {
 
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retituisce tutti i prodotti che ci sono a DB in formato json"),
+            @ApiResponse(code = 200, message = "Restituisce tutti i prodotti che ci sono a DB in formato json"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
@@ -33,7 +33,7 @@ public class MerceController {
     }
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retituisce tutti i prodotti che ci sono a DB in formato json"),
+            @ApiResponse(code = 200, message = "Restituisce tutti i prodotti che ci sono a DB in formato json"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
@@ -44,7 +44,7 @@ public class MerceController {
     }
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retituisce tutti i prodotti che ci sono a DB in formato json"),
+            @ApiResponse(code = 200, message = "Restituisce tutti i prodotti che ci sono a DB in formato json"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
@@ -81,13 +81,13 @@ public class MerceController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteMerceItemById(@PathVariable int id) throws NotFoundException {
+    public ResponseEntity<String> deleteMerceItemById(@PathVariable int id){
         try {
             service.deleteMerceItemById(id);
-            return new ResponseEntity<String>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch(NotFoundException e){
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -98,13 +98,13 @@ public class MerceController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @DeleteMapping(value = "/deleteDecoroItemByEntity")
-    public ResponseEntity<String> deleteMerceItemByEntity(@RequestBody MerceEntity item) throws NotFoundException {
+    public ResponseEntity<String> deleteMerceItemByEntity(@RequestBody MerceEntity item){
         try {
             service.deleteMerceItemByEntity(item);
-            return new ResponseEntity<String>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch(NotFoundException e){
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -115,9 +115,9 @@ public class MerceController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @DeleteMapping(value = "/deleteAll")
-    public ResponseEntity<String> deleteAllMerceItems() throws NotFoundException {
+    public ResponseEntity<String> deleteAllMerceItems(){
         service.deleteAllMerceItems();
-        return new ResponseEntity<String>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiResponses(value = {
@@ -129,6 +129,6 @@ public class MerceController {
     @DeleteMapping(value = "/deleteAllSelectedDecoroItems")
     public ResponseEntity<String> deleteMerceItemByIds(@RequestBody Iterable<MerceEntity> ids) {
         service.deleteAllSelectedMerceItems(ids);
-        return new ResponseEntity<String>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

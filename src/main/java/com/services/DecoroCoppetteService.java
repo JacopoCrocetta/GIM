@@ -37,7 +37,7 @@ public class DecoroCoppetteService {
 
     //SEZIONE DELETE
     public void deleteDecoroItemById(Integer id) throws NotFoundException {
-        if(repository.existsById(id)){
+        if(repository.existsById(id) && repository.findById(id).isPresent()){
             repository.delete(repository.findById(id).get());
         }
         throw new NotFoundException("Item not found");

@@ -38,7 +38,7 @@ public class MerceService {
 
     //SEZIONE DELETE
     public void deleteMerceItemById(Integer id) throws NotFoundException {
-        if(repository.existsById(id)){
+        if(repository.existsById(id) && repository.findById(id).isPresent()){
             repository.delete(repository.findById(id).get());
         }
         throw new NotFoundException("Item not found");
