@@ -16,9 +16,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/vassoi")
 public class DecoroVassoiController {
+
     @Autowired
     DecoroVassoiService decoroService;
-
 
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Restituisce tutti i prodotti che ci sono a DB in formato json"),

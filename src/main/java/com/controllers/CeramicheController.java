@@ -14,10 +14,14 @@ import io.swagger.annotations.ApiResponse;
 
 import java.util.Optional;
 
+/**
+ *
+ * @author Jacopo Crocetta
+ * @author Edoardo Laurini
+ */
 @RestController
 @RequestMapping("/ceramiche")
 public class CeramicheController {
-
 
     @Autowired
     CeramicheService ceramicheService;

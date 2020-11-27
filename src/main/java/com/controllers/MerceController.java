@@ -20,7 +20,6 @@ public class MerceController {
     @Autowired
     MerceService service;
 
-
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Restituisce tutti i prodotti che ci sono a DB in formato json"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -28,7 +27,7 @@ public class MerceController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @GetMapping(value = "/findAllMerce",produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<MerceEntity> getAllMerci(){
+    public Iterable<MerceEntity> findAllMerci(){
         return service.getAllMerceItems();
     }
 

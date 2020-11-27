@@ -16,11 +16,12 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 public class Converter {
-    //DATE CONVERSION
+    ///DATE CONVERSION
     LocalDate localDate;
     LocalDateTime localDateTime;
     String localDateFormatter;
 
+    ///Google Json
     Gson gson;
 
     public Converter(){
