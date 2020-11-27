@@ -57,4 +57,5 @@ public class DecoroCoppetteService {
     public void deleteAllSelectedDecoroItems(Iterable<DecoroCoppetteEntity> itemsToDelete){
         repository.deleteAll(itemsToDelete);
     }
+
 }
