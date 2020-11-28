@@ -13,6 +13,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ *
+ * @author Jacopo Crocetta
+ */
 @Getter
 @Setter
 public class Converter {
@@ -23,6 +27,11 @@ public class Converter {
 
     ///Google Json
     Gson gson;
+
+    /*
+    TODO Finire di creare i javadoc
+    TODO Mettere il converter da String a Entity
+    */
 
     public Converter(){
         this.localDateFormatter = "dd/MM/yyyy";
@@ -80,30 +89,102 @@ public class Converter {
         this.gson = gson;
     }
 
+    /**
+     *
+     * <p>
+     *     Method that converts a variable
+     *     of type LocalDate to a string
+     * </p>
+     * @return the LocalDate converted in string
+     */
     public String localDateConverterToString(){
         return localDate.format(DateTimeFormatter.ofPattern(localDateFormatter));
     }
 
+    /**
+     *
+     * <p>
+     *     Method that converts a variable
+     *     of type LocalDateTime to a string
+     * </p>
+     * @return the LocalDateTime converted in string
+     */
     public String localDateTimeConverterToString(){
         return localDateTime.format(DateTimeFormatter.ofPattern(localDateFormatter));
     }
 
+    /**
+     *
+     * <p>
+     *     Method that converts a variable
+     *     of type LocalDate to a timestamp
+     * </p>
+     * @return the LocalDate converted in string
+     */
     public Timestamp localDateConverterToTimestamp(){
         return Timestamp.valueOf(localDate.format(DateTimeFormatter.ofPattern(localDateFormatter)));
     }
 
+    /**
+     *
+     * <p>
+     *     Method that converts a variable
+     *     of type LocalDate to a timestamp
+     * </p>
+     * @return the LocalDateTime converted in Timestamp
+     */
+    public Timestamp localDateTimeConverterToTimestamp(){
+        return Timestamp.valueOf(localDateTime.format(DateTimeFormatter.ofPattern(localDateFormatter)));
+    }
+
+    /**
+     *
+     * <p>
+     *     Method that converts a variable
+     *     of type CeramicheEntity to a String
+     * </p>
+     * @param entity the CeramicheEntity we aro going to convert
+     * @return the CeramicheEntity converted in String in Json format
+     */
     public String ceramicheEntityGsonToString(CeramicheEntity entity){
         return this.gson.toJson(entity);
     }
 
+    /**
+     *
+     * <p>
+     *     Method that converts a variable
+     *     of type DecoroCoppetteEntity to a String
+     * </p>
+     * @param entity the CeramicheEntity we aro going to convert
+     * @return the DecoroCoppetteEntity converted in String in Json format
+     */
     public String decoroCoppetteEntityGsonToString(DecoroCoppetteEntity entity){
         return this.gson.toJson(entity);
     }
 
+    /**
+     *
+     * <p>
+     *     Method that converts a variable
+     *     of type DecoroVassoiEntity to a String
+     * </p>
+     * @param entity the DecoroVassoiEntity we aro going to convert
+     * @return the DecoroVassoiEntity converted in String in Json format
+     */
     public String decoroVassoiEntityGsonToString(DecoroVassoiEntity entity){
         return this.gson.toJson(entity);
     }
 
+    /**
+     *
+     * <p>
+     *     Method that converts a variable
+     *     of type CeramicheEntity to a String
+     * </p>
+     * @param entity the CeramicheEntity we aro going to convert
+     * @return the CeramicheEntity converted in String in Json format
+     */
     public String merceEntityGsonToString(MerceEntity entity){
         return this.gson.toJson(entity);
     }

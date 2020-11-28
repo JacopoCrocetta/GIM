@@ -17,9 +17,23 @@ import java.util.Optional;
 @RequestMapping("/merce")
 public class MerceController {
 
+    /*
+    TODO Finire i Javadoc
+    TODO Finire di definire cosa ritornare nei metodi deleteMerceItemByEntity e deleteMerceItemById
+    TODO Finire di aggiornare e da fare il refactor delle ApiResponse
+    */
+
     @Autowired
     MerceService service;
 
+    /**
+     *
+     * <p>
+     *     Microservices drop method
+     *     that returns all elements of the table
+     * </p>
+     * @return all elements of the table
+     */
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Restituisce tutti i prodotti che ci sono a DB in formato json"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -31,6 +45,15 @@ public class MerceController {
         return service.getAllMerceItems();
     }
 
+    /**
+     *
+     * <p>
+     *     Microservices drop method
+     *     that returns all elements of the ids' list passed in input
+     * </p>
+     * @param ids the list of id to search in database
+     * @return all elements of the table whit the ids passed in the parameter
+     */
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Restituisce tutti i prodotti che ci sono a DB in formato json"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -42,6 +65,15 @@ public class MerceController {
         return service.getMerceItemsByIDS(ids);
     }
 
+    /**
+     *
+     * <p>
+     *     Microservices drop method
+     *     that returns all elements of the ids' list passed in input
+     * </p>
+     * @param id the id's item to search in database
+     * @return the element with the id passed in the parameter
+     */
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Restituisce tutti i prodotti che ci sono a DB in formato json"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -53,6 +85,14 @@ public class MerceController {
         return service.getMerceItemById(id);
     }
 
+    /**
+     *
+     * <p>
+     *     This method allow us to save an item into the database
+     * </p>
+     * @param item the item to save in database
+     * @return the saved item
+     */
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "{\"id\": 0,\"product\": \"string\",\"quantity\": 0}"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -64,6 +104,14 @@ public class MerceController {
         return service.addMerceItem(item);
     }
 
+    /**
+     *
+     * <p>
+     *     This method allow us to save some items into the database
+     * </p>
+     * @param itemsToAdd the items to save in database
+     * @return the saved items
+     */
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "{\"id\": 0,\"product\": \"string\",\"quantity\": 0}"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -71,8 +119,19 @@ public class MerceController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @PutMapping(value = "/insertMoreMerceItems",produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<MerceEntity> addMerceItems(@RequestBody Iterable<MerceEntity> items) {return service.addMerceItems(items);}
+    public Iterable<MerceEntity> addMerceItems(@RequestBody Iterable<MerceEntity> itemsToAdd) {
+        return service.addMerceItems(itemsToAdd);
+    }
 
+    /**
+     *
+     * <p>
+     *     This method allow us to delete one item into the database by his id
+     * </p>
+     * @param id the items to delete in database
+     * @return the response code
+     * @exception NotFoundException in case the id is not found in the database
+     */
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "ok"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -80,16 +139,21 @@ public class MerceController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteMerceItemById(@PathVariable int id){
-        try {
-            service.deleteMerceItemById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch(NotFoundException e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<String> deleteMerceItemById(@PathVariable int id) throws NotFoundException{
+        service.deleteMerceItemById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     *
+     * <p>
+     *     This method allow us to delete an item into the database
+     * </p>
+     * @param itemToDelete the items to delete in database
+     * @return the response code
+     * @exception NotFoundException in case the item to delete not exist
+     * @exception NullPointerException in case the item to delete is not exist
+     */
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "ok"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -97,16 +161,18 @@ public class MerceController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @DeleteMapping(value = "/deleteDecoroItemByEntity")
-    public ResponseEntity<String> deleteMerceItemByEntity(@RequestBody MerceEntity item){
-        try {
-            service.deleteMerceItemByEntity(item);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch(NotFoundException e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<String> deleteMerceItemByEntity(@RequestBody MerceEntity itemToDelete) throws NotFoundException, NullPointerException{
+        service.deleteMerceItemByEntity(itemToDelete);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     *
+     * <p>
+     *     This method allow us to delete all into the database
+     * </p>
+     * @return the response code
+     */
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "ok"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -119,6 +185,14 @@ public class MerceController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     *
+     * <p>
+     *     This method allow us to delete some items into the database
+     * </p>
+     * @param itemsToDelete the items to delete in database
+     * @return the response code
+     */
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "ok"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -126,8 +200,8 @@ public class MerceController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @DeleteMapping(value = "/deleteAllSelectedDecoroItems")
-    public ResponseEntity<String> deleteMerceItemByIds(@RequestBody Iterable<MerceEntity> ids) {
-        service.deleteAllSelectedMerceItems(ids);
+    public ResponseEntity<String> deleteMerceItemByIds(@RequestBody Iterable<MerceEntity> itemsToDelete) {
+        service.deleteAllSelectedMerceItems(itemsToDelete);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

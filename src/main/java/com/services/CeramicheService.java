@@ -16,6 +16,8 @@ import java.util.Optional;
 @Service
 public class CeramicheService {
 
+    //TODO Nelle delete con le eccezioni ritornare un messaggio personalizzato in base a come è andato il metodo
+
     /**
      * Management variable for connection to the DB
      */
