@@ -21,6 +21,7 @@ public class DecoroCoppetteController {
     TODO Finire i Javadoc
     TODO Finire di definire cosa ritornare nei metodi deleteDecoroItemById e deleteDecorItemByEntity
     TODO Finire di aggiornare e da fare il refactor delle ApiResponse
+    TODO Testati 4 su 9
     */
 
     @Autowired
@@ -96,7 +97,7 @@ public class DecoroCoppetteController {
      * @return the saved item
      */
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "{\"id\": 0,\"product\": \"string\",\"quantity\": 0}"),
+        @ApiResponse(code = 200, message = "ok"),
         @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
@@ -144,9 +145,11 @@ public class DecoroCoppetteController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteDecoroItemById(@PathVariable int id) throws NotFoundException {
         //Da capire se sel body della request possiamo fare il return delle eccezioni
-        decoroService.deleteDecoroItemById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Boolean hasBeenFound = decoroService.deleteDecoroItemById(id);
+        ResponseEntity<String> ret = hasBeenFound? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return ret;
     }
+
 
     /**
      *
@@ -157,6 +160,7 @@ public class DecoroCoppetteController {
      * @return the response code
      * @exception NotFoundException in case the item to delete not exist
      * @exception NullPointerException in case the item to delete is not exist
+     * @deprecated
      */
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "ok"),
@@ -171,6 +175,7 @@ public class DecoroCoppetteController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //TODO: Inserire controllo su futura superutenza!
     /**
      *
      * <p>

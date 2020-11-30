@@ -2,6 +2,7 @@ package com.services;
 
 import com.entities.DecoroCoppetteEntity;
 import com.repositories.DecoroCoppetteRepository;
+import com.utility.Converter;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,11 +96,17 @@ public class DecoroCoppetteService {
      * @param id record's id to delete
      * @exception NotFoundException In case the id is not in the DB
      */
-    public void deleteDecoroItemById(Integer id) throws NotFoundException {
-        if(repository.existsById(id) && repository.findById(id).isPresent()){
-            repository.delete(repository.findById(id).get());
+    public Boolean deleteDecoroItemById(Integer id) throws NotFoundException {
+        try {
+            if (repository.existsById(id) && repository.findById(id).isPresent()) {
+                repository.delete(repository.findById(id).get());
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
-        throw new NotFoundException("Item not found");
     }
 
     /**
