@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,12 +23,12 @@ public class MerceEntity {
 
     private BigDecimal prezzoAcquisto;
     private BigDecimal prezzoVendita;
-    private BigInteger quantita;
+    private BigDecimal quantita;
 
     private String codMerce;
     private String note;
-    private String codOperatore;
+    private String cod_OPERATORE;
 
-    LocalDateTime DatIns;
-    LocalDateTime DatUpd;
+    LocalDateTime datIns;
+    LocalDateTime datUpd;
 }

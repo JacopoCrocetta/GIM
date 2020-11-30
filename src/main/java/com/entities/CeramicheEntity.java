@@ -22,8 +22,8 @@ public class CeramicheEntity {
     private int quantity;
 
     private String product;
-    private String codOperatore;
+    private String cod_OPERATORE;
 
-    LocalDateTime DatIns;
-    LocalDateTime DatUpd;
+    LocalDateTime datIns;
+    LocalDateTime datUpd;
 }

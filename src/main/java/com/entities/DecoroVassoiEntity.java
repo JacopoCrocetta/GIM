@@ -21,8 +21,8 @@ public class DecoroVassoiEntity {
     private int id;
 
     String DES_TIP_DECORO_VASSOI;
-    String COD_OPERATORE;
+    String cod_OPERATORE;
 
-    LocalDateTime DatIns;
-    LocalDateTime DatUpd;
+    LocalDateTime datIns;
+    LocalDateTime datUpd;
 }
