@@ -11,6 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,7 +24,7 @@ public class DecoroCoppetteController {
     TODO Finire i Javadoc
     TODO Finire di definire cosa ritornare nei metodi deleteDecoroItemById e deleteDecorItemByEntity
     TODO Finire di aggiornare e da fare il refactor delle ApiResponse
-    TODO Testati 4 su 9
+    TODO Testati 6 su 9
     */
 
     @Autowired
@@ -53,7 +56,7 @@ public class DecoroCoppetteController {
      *     Microservices drop method
      *     that returns all elements of the ids' list passed in input
      * </p>
-     * @param ids the list of id to search in database
+     * @param idsEntity the list of id to search in database
      * @return all elements of the table whit the ids passed in the parameter
      */
     @ApiResponses(value = {
@@ -63,7 +66,12 @@ public class DecoroCoppetteController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @GetMapping(value = "/findAllDecoriByIds",produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<DecoroCoppetteEntity> findAllDecoriByIds(@RequestBody Iterable<Integer> ids){
+    public Iterable<DecoroCoppetteEntity> findAllDecoriByIds(@RequestBody Iterable<DecoroCoppetteEntity> idsEntity){
+        List<Integer> ids = new ArrayList<Integer>();
+        for (DecoroCoppetteEntity idsToExtract:idsEntity){
+            Integer id = idsToExtract.getId();
+            ids.add(id);
+        }
         return decoroService.getDecoriItemsByIDS(ids);
     }
 
