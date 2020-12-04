@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,10 +66,9 @@ public class DecoroCoppetteController {
     })
     @GetMapping(value = "/findAllDecoriByIds",produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<DecoroCoppetteEntity> findAllDecoriByIds(@RequestBody Iterable<DecoroCoppetteEntity> idsEntity){
-        List<Integer> ids = new ArrayList<Integer>();
+        List<Integer> ids = new ArrayList<>();
         for (DecoroCoppetteEntity idsToExtract:idsEntity){
-            Integer id = idsToExtract.getId();
-            ids.add(id);
+            ids.add(idsToExtract.getId());
         }
         return decoroService.getDecoriItemsByIDS(ids);
     }
