@@ -20,9 +20,9 @@ public class DecoroCoppetteEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    String des_TIP_DECORO_COPPETTE;
-    String cod_OPERATORE;
+    private String des_TIP_DECORO_COPPETTE;
+    private String cod_OPERATORE;
 
-    LocalDateTime datIns;
-    LocalDateTime datUpd;
+    private LocalDateTime datIns;
+    private LocalDateTime datUpd;
 }

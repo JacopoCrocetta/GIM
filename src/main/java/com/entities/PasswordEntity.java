@@ -1,6 +1,5 @@
 package com.entities;
 
-
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,19 +9,20 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tip_decoro_vassoi")
+@Table(name = "password")
 @Data
 @NoArgsConstructor
 @Getter
 @Setter
-public class DecoroVassoiEntity {
+public class PasswordEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private String DES_TIP_DECORO_VASSOI;
-    private String cod_OPERATORE;
-
-    private LocalDateTime datIns;
-    private LocalDateTime datUpd;
+    private String PS;
+    private String PS_SALT;
+    private String COD_OPERATORE;
+    private LocalDateTime DAT_INS;
+    private LocalDateTime DAT_UPD;
 }

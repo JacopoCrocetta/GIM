@@ -77,6 +77,12 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Support for serving a XHTML/HTML5 in web applications -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
 		<!-- SWAGGER -->
 		<dependency>
 			<groupId>io.springfox</groupId>

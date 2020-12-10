@@ -29,6 +29,6 @@ public class MerceEntity {
     private String note;
     private String cod_OPERATORE;
 
-    LocalDateTime datIns;
-    LocalDateTime datUpd;
+    private LocalDateTime datIns;
+    private LocalDateTime datUpd;
 }
