@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UtenteEntity {
+public class UtentiEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int ID_UTENTE;
 
     private String USERNAME_UTENTE;
     private String NOME_UTENTE;
