@@ -43,6 +43,12 @@
 			</exclusions>
 		</dependency>
 
+		<!-- Apache commons per conversione Iterable a list -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+
 		<!-- Enabling Production-ready Features -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -25,7 +25,7 @@ public class UtentiController {
     //TODO : andrebbe fatto un JSON ad hoc "{user:user}" al momento è sufficiente così
     public Optional<UtentiEntity> findUtente(@RequestBody TextNode user) throws SQLException, ClassNotFoundException {
         int userID = utentiService.getIdUtenti(user.asText());
-        return utentiService.getUtentiById(userID);
+        return utentiService.getUtenteById(userID);
         //TODO : recuperare password
     }
 }
