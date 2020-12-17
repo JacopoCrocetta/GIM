@@ -2,17 +2,17 @@ package com.entities;
 
 import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.persistence.Id;
 
 @Data
 @Getter
 @Setter
-public class UserDataEntity {
+public class UserCompleteDataEntity {
     @Id
     private String USER;
+    private String NAME;
+    private String SURNAME;
     private String PWD;
 }

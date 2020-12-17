@@ -13,4 +13,6 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("spring.datasource")
 public class ApplicationProperties {
     private String url;
+    private String username;
+    private String password;
 }
