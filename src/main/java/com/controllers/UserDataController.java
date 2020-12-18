@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.entities.SecurityEntity;
 import com.entities.UserCompleteDataEntity;
 import com.entities.UserDataEntity;
 import com.services.UserDataService;
@@ -18,8 +19,8 @@ public class UserDataController {
     UserDataService userDataService;
 
     @GetMapping(value = "/findUser", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean findUtente(@RequestBody UserDataEntity userData) throws SQLException {
-        return userData.getPWD().equals(userDataService.getPWDfromDB(userData.getUSER()));
+    public SecurityEntity findUser(@RequestBody UserDataEntity userData) throws SQLException {
+        return userDataService.findUser(userData);
     }
 
     @PutMapping(value = "/insertUser", consumes = MediaType.APPLICATION_JSON_VALUE)
