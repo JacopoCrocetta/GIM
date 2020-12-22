@@ -1,6 +1,7 @@
 package com.services;
 
-import com.configs.ApplicationProperties;
+import com.configs.DatasourceProperties;
+import com.configs.EmailProperties;
 import com.entities.SecurityEntity;
 import com.entities.UserCompleteDataEntity;
 import com.entities.UserDataEntity;
@@ -8,19 +9,25 @@ import com.utility.Filters;
 import com.utility.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import java.sql.*;
+import java.util.Properties;
 
 //TODO : Ottimizzare
 
 @Service
 public class UserDataService {
     @Autowired
-    ApplicationProperties prop;
+    DatasourceProperties dsProp;
+    @Autowired
+    EmailProperties emProp;
 
     public String getPWDfromDB(String userData) throws SQLException {
         String psId = null;
-            Connection con = DriverManager.getConnection(prop.getUrl(), prop.getUsername(), prop.getPassword());
+            Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
             PreparedStatement stmt = con.prepareStatement(Filters.retrievePasswordfromUser);
             stmt.setString(1, userData.trim());
             ResultSet rs = stmt.executeQuery();
@@ -33,7 +40,7 @@ public class UserDataService {
 
     public int getTentativesfromDB(String userData) throws SQLException {
         int psTentatives = 0;
-        Connection con = DriverManager.getConnection(prop.getUrl(), prop.getUsername(), prop.getPassword());
+        Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
         PreparedStatement stmt = con.prepareStatement(Filters.retrieveTentativesfromUser);
         stmt.setString(1, userData.trim());
         ResultSet rs = stmt.executeQuery();
@@ -45,7 +52,7 @@ public class UserDataService {
     }
 
     public Boolean insertNewUser(UserCompleteDataEntity userDataToInsert) throws SQLException {
-        Connection con = DriverManager.getConnection(prop.getUrl(), prop.getUsername(), prop.getPassword());
+        Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
         PreparedStatement stmt = con.prepareStatement(Filters.insertNewUser);
         stmt.setString(1, userDataToInsert.getUSER().trim());
         stmt.setString(2, userDataToInsert.getNAME().trim());
@@ -77,15 +84,17 @@ public class UserDataService {
         updateTentatives(userData, isAccessGranted);
         userDataChecks.setACCESS_GRANTED(isAccessGranted);
         boolean isAccessLocked = Filters.maxTentatives < (getTentativesfromDB(userData.getUSER()));
-        if(isAccessLocked)
+        if(isAccessLocked) {
             destroyPassword(userData.getUSER());
+            sendEmail(userData);
+        }
         userDataChecks.setACCESS_LOCKED(isAccessLocked);
         return userDataChecks;
     }
 
     private void destroyPassword(String user) throws SQLException {
         int psId = 0;
-        Connection con = DriverManager.getConnection(prop.getUrl(), prop.getUsername(), prop.getPassword());
+        Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
         PreparedStatement stmt = con.prepareStatement(Filters.retrieveidUser);
         stmt.setString(1, user.trim());
         ResultSet rs = stmt.executeQuery();
@@ -97,12 +106,61 @@ public class UserDataService {
         stmt2.setInt(1, psId);
         int done = stmt2.executeUpdate();
         con.close();
-        //TODO: inviare mail
+    }
+
+    public void sendEmail(UserDataEntity userData) throws SQLException {
+        //TODO: creare casella di gruppo
+        String from = "";
+        String password = "";
+        String to = retrieveUserMail(userData.getUSER());
+
+        String sub ="[GIM] Messaggio importante relativo al tuo account";
+        //TODO: creare messaggio di default
+        String msg ="Account has been locked. Bye bye";
+
+        //Get properties object
+        Properties props = new Properties();
+        props.put("mail.smtp.host", emProp.getHost());
+        props.put("mail.smtp.socketFactory.port", emProp.getSocketFactoryport());
+        props.put("mail.smtp.socketFactory.class", emProp.getSocketFactoryclass());
+        props.put("mail.smtp.auth", emProp.getAuth());
+        props.put("mail.smtp.port", emProp.getPort());
+        //get Session
+        Session session = Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(from,password);
+                    }
+                });
+        //compose message
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
+            message.setSubject(sub);
+            message.setText(msg);
+            //send message
+            Transport.send(message);
+            System.out.println("message sent successfully");
+        } catch (MessagingException e) {throw new RuntimeException(e);}
+
+    }
+
+    private String retrieveUserMail(String user) throws SQLException {
+        String psEmail = null;
+        Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
+        PreparedStatement stmt = con.prepareStatement(Filters.retrieveUserMail);
+        stmt.setString(1, user.trim());
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            psEmail = rs.getString(1 );;
+        }
+        con.close();
+        return psEmail;
     }
 
     private void updateTentatives(UserDataEntity userData, Boolean isAccessGranted) throws SQLException {
         int psId = 0;
-        Connection con = DriverManager.getConnection(prop.getUrl(), prop.getUsername(), prop.getPassword());
+        Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
         PreparedStatement stmt = con.prepareStatement(Filters.retrieveidUser);
         stmt.setString(1, userData.getUSER().trim());
         ResultSet rs = stmt.executeQuery();

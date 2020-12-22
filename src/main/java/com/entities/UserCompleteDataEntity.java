@@ -12,6 +12,7 @@ import javax.persistence.Id;
 public class UserCompleteDataEntity {
     @Id
     private String USER;
+    private String EMAIL;
     private String NAME;
     private String SURNAME;
     private String PWD;
