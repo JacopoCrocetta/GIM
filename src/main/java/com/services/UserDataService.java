@@ -2,6 +2,7 @@ package com.services;
 
 import com.configs.DatasourceProperties;
 import com.configs.EmailProperties;
+import com.configs.StandardMessagesProperties;
 import com.entities.SecurityEntity;
 import com.entities.UserCompleteDataEntity;
 import com.entities.UserDataEntity;
@@ -24,6 +25,8 @@ public class UserDataService {
     DatasourceProperties dsProp;
     @Autowired
     EmailProperties emProp;
+    @Autowired
+    StandardMessagesProperties msgProp;
 
     public String getPWDfromDB(String userData) throws SQLException {
         String psId = null;
@@ -83,9 +86,12 @@ public class UserDataService {
         boolean isAccessGranted = userData.getPWD().equals(getPWDfromDB(userData.getUSER()));
         updateTentatives(userData, isAccessGranted);
         userDataChecks.setACCESS_GRANTED(isAccessGranted);
-        boolean isAccessLocked = Filters.maxTentatives < (getTentativesfromDB(userData.getUSER()));
+        int tentativesfromDB = getTentativesfromDB(userData.getUSER());
+        System.out.println(tentativesfromDB);
+        boolean isAccessLocked = Filters.maxTentatives <= tentativesfromDB;
         if(isAccessLocked) {
             destroyPassword(userData.getUSER());
+            if(Filters.maxTentatives == tentativesfromDB)
             sendEmail(userData);
         }
         userDataChecks.setACCESS_LOCKED(isAccessLocked);
@@ -108,15 +114,10 @@ public class UserDataService {
         con.close();
     }
 
+    //TODO: parametrizzare l'invio della mail in caso di account loccato per password errata o password_salted errata
     public void sendEmail(UserDataEntity userData) throws SQLException {
-        //TODO: creare casella di gruppo
-        String from = "";
-        String password = "";
         String to = retrieveUserMail(userData.getUSER());
-
         String sub ="[GIM] Messaggio importante relativo al tuo account";
-        //TODO: creare messaggio di default
-        String msg ="Account has been locked. Bye bye";
 
         //Get properties object
         Properties props = new Properties();
@@ -129,7 +130,7 @@ public class UserDataService {
         Session session = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(from,password);
+                        return new PasswordAuthentication(emProp.getUser(),emProp.getPwd());
                     }
                 });
         //compose message
@@ -137,10 +138,10 @@ public class UserDataService {
             MimeMessage message = new MimeMessage(session);
             message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
             message.setSubject(sub);
-            message.setText(msg);
+            message.setText(msgProp.getAccountlocked());
             //send message
             Transport.send(message);
-            System.out.println("message sent successfully");
+            System.out.println("email type \"AccountLocked\" sent successfully");
         } catch (MessagingException e) {throw new RuntimeException(e);}
 
     }
@@ -177,5 +178,86 @@ public class UserDataService {
         int user = stmt2.executeUpdate();
         con.close();
     }
+
+    public SecurityEntity findUserWithSaltedPwd(UserDataEntity userData) throws SQLException {
+        SecurityEntity userDataChecks = new SecurityEntity();
+        boolean isAccessGranted = userData.getPWD().equals(getSaltedPWDfromDB(userData.getUSER()));
+        updateSaltedTentatives(userData, isAccessGranted);
+        userDataChecks.setACCESS_GRANTED(isAccessGranted);
+        int tentativesfromDB = getSaltedTentativesfromDB(userData.getUSER());
+        System.out.println(tentativesfromDB);
+        boolean isAccessLocked = Filters.maxTentatives <= tentativesfromDB;
+        if(isAccessLocked) {
+            destroySaltedPassword(userData.getUSER());
+            if(Filters.maxTentatives == tentativesfromDB)
+                sendEmail(userData);
+        }
+        userDataChecks.setACCESS_LOCKED(isAccessLocked);
+        return userDataChecks;
+    }
+
+    private void destroySaltedPassword(String user) throws SQLException {
+        int psId = 0;
+        Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
+        PreparedStatement stmt = con.prepareStatement(Filters.retrieveidUser);
+        stmt.setString(1, user.trim());
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            psId = rs.getInt(1);
+        }
+        PreparedStatement stmt2;
+        stmt2 = con.prepareStatement(Filters.destroyUserSaltedPassword);
+        stmt2.setInt(1, psId);
+        int done = stmt2.executeUpdate();
+        con.close();
+    }
+
+    private int getSaltedTentativesfromDB(String userData) throws SQLException {
+        int psTentatives = 0;
+        Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
+        PreparedStatement stmt = con.prepareStatement(Filters.retrieveSaltedTentativesfromUser);
+        stmt.setString(1, userData.trim());
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            psTentatives = rs.getInt(1);
+        }
+        con.close();
+        return psTentatives;
+    }
+
+    private void updateSaltedTentatives(UserDataEntity userData, boolean isAccessGranted) throws SQLException {
+        int psId = 0;
+        Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
+        PreparedStatement stmt = con.prepareStatement(Filters.retrieveidUser);
+        stmt.setString(1, userData.getUSER().trim());
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            psId = rs.getInt(1);
+        }
+        PreparedStatement stmt2;
+        if(isAccessGranted){
+            stmt2 = con.prepareStatement(Filters.resetSaltedTentatives);
+        }else {
+            stmt2 = con.prepareStatement(Filters.updateSaltedTentatives);
+        }
+        stmt2.setInt(1, psId);
+        int user = stmt2.executeUpdate();
+        con.close();
+    }
+
+    private String getSaltedPWDfromDB(String userData) throws SQLException {
+        String psId = null;
+        Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
+        PreparedStatement stmt = con.prepareStatement(Filters.retrieveSaltedPasswordfromUser);
+        stmt.setString(1, userData.trim());
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            psId = rs.getString(1);
+        }
+        con.close();
+        return psId;
+    }
+
 }
+
 

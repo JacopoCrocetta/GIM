@@ -10,13 +10,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties("mail.smtp")
-public class EmailProperties {
-    private String host;
-    private String socketFactoryport;
-    private String socketFactoryclass;
-    private String auth;
-    private String port;
-    private String user;
-    private String pwd;
+@ConfigurationProperties("msg")
+public class StandardMessagesProperties {
+    private String accountlocked;
 }

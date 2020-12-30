@@ -23,6 +23,11 @@ public class UserDataController {
         return userDataService.findUser(userData);
     }
 
+    @GetMapping(value = "/findUserWithSaltedPwd", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public SecurityEntity findUserWithSaltedPwd(@RequestBody UserDataEntity userData) throws SQLException {
+        return userDataService.findUserWithSaltedPwd(userData);
+    }
+
     @PutMapping(value = "/insertUser", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Boolean addDecoroItem(@RequestBody UserCompleteDataEntity userDataToInsert) throws SQLException {
         return userDataService.insertNewUser(userDataToInsert);
