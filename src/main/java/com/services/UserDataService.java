@@ -58,8 +58,9 @@ public class UserDataService {
         Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
         PreparedStatement stmt = con.prepareStatement(Filters.insertNewUser);
         stmt.setString(1, userDataToInsert.getUSER().trim());
-        stmt.setString(2, userDataToInsert.getNAME().trim());
-        stmt.setString(3, userDataToInsert.getSURNAME().trim());
+        stmt.setString(2, userDataToInsert.getEMAIL().trim());
+        stmt.setString(3, userDataToInsert.getNAME().trim());
+        stmt.setString(4, userDataToInsert.getSURNAME().trim());
         int user = stmt.executeUpdate();
         PreparedStatement stmt2 = con.prepareStatement(Filters.insertNewPwd);
         stmt2.setInt(1, retrieveLastId(userDataToInsert.getUSER().trim(), con));

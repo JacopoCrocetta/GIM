@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
     <head>
         <meta charset="UTF-8">
         <title>Pagina di Login</title>
         <!--<link rel="stylesheet" href="login.css">-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <style>
             /* Bordered form */
 form {
@@ -83,18 +84,57 @@ span.psw {
     <div class="imgcontainer">
         <img src="img_avatar2.png" alt="Avatar" class="avatar">
     </div>
-    <div class="container">
-        <label for="uName"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="uName" required>
-    </div>
-    <div class="container">
-        <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
-    </div>
-    <div class="container">
-        <button type="submit">Login</button>
-    </div>
-    <div class="container" style="background-color:#f1f1f1">
+    <label><b>Username</b></label>
+    <input type="text" maxlength="512" id="uName" class="uNameField"/>
+    <!--<input type="button" value="Get Value" onclick="loadXMLDoc(uName.value)">
+    <input type="text" id="uName">
+    <input type="button" value="Login" onclick="alert(uName.text)">-->
+    <label><b>Password</b></label>
+    <input type="password" maxlength="512" id="psw" class="pswField"/>
+    <input type="button" value="Login" onclick="loadXMLDoc()">
+    <script>
+        function loadXMLDoc() {
+            var xmlhttp;
+
+            console.log('username', this.document.getElementById('uName').value);
+            console.log('psw', this.document.getElementById('psw').value);
+
+            var requestBody = '{"user":"';
+            requestBody = requestBody + document.getElementById('uName').value + '",';
+            requestBody = requestBody + '"pwd":"'+ document.getElementById('psw').value + '"}';
+
+
+            console.log('requestBody', this.requestBody);
+            requestBodyObj = JSON.parse(requestBody);
+            console.log('requestBody', this.requestBody);
+
+
+            if (window.XMLHttpRequest) {
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for older browsers
+                xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+            }
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                  document.getElementById("container").innerHTML =
+                  this.responseText;
+                }
+            };
+            xmlhttp.open('GET', 'http://localhost:8080/user/findUser');
+            xmlhttp.responseType = 'json';
+            xmlhttp.onload = function(e) {
+                if (this.status == 200) {
+                    console.log('response', this.response); // JSON response
+                }
+            };
+            xmlhttp.send(requestBody);
+        }
+    </script>
+
+
+    <!-- Cancel Zone -->
+    <div class="container" style="background-color:#f1f1f1" id="cancel">
         <button type="button" class="cancelBtn">Cancel</button>
         <span class="psw">Forgot <a href="resetPassword.html">password?</a></span>
     </div>
