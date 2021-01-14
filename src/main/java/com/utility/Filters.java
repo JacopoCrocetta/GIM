@@ -8,6 +8,7 @@ import lombok.Setter;
 public class Filters {
     private static String operator = "\"GIM_BE\"";
     public static int maxTentatives = 3;
+    public static String checkUser = "select count(u.id_utente) from utenti u where username_utente = ?";
     public static String retrievePasswordfromUser = "select p.ps from utenti u, password p where u.username_utente = ? and p.id_utente = u.id_utente";
     public static String retrieveSaltedPasswordfromUser = "select p.ps_salt from utenti u, password p where u.username_utente = ? and p.id_utente = u.id_utente";
     public static String retrieveTentativesfromUser = "select p.try from utenti u, password p where u.username_utente = ? and p.id_utente = u.id_utente";

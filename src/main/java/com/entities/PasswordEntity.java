@@ -18,7 +18,7 @@ public class PasswordEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int id_utente;
 
     private String PS;
     private String PS_SALT;

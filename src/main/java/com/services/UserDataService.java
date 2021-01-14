@@ -8,8 +8,10 @@ import com.entities.UserCompleteDataEntity;
 import com.entities.UserDataEntity;
 import com.utility.Filters;
 import com.utility.PasswordGenerator;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -67,7 +69,7 @@ public class UserDataService {
         stmt2.setString(2, userDataToInsert.getPWD().trim());
         stmt2.setString(3, PasswordGenerator.getNextSalt().toString());
         int pwd = stmt2.executeUpdate();
-        con.close();
+        con.commit();
         return user+pwd == 2;
     }
 
@@ -259,6 +261,18 @@ public class UserDataService {
         return psId;
     }
 
+    public boolean checkUserisAlreadyPresent(UserCompleteDataEntity userDataToInsert) throws SQLException {
+        Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
+        PreparedStatement stmt = con.prepareStatement(Filters.checkUser);
+        stmt.setString(1, userDataToInsert.getUSER());
+        ResultSet rs = stmt.executeQuery();
+        int found = 0;
+        while (rs.next()) {
+            found = rs.getInt(1 );
+        }
+        con.close();
+        return (found > 0);
+    }
 }
 
 

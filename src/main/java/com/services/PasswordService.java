@@ -40,7 +40,7 @@ public class PasswordService {
 
     //Sezione Delete
     public boolean deleteAUser(PasswordEntity userToDelete) throws NotFoundException {
-        if(repository.existsById(userToDelete.getId())){
+        if(repository.existsById(userToDelete.getId_utente())){
             repository.delete(userToDelete);
             return true;
         }

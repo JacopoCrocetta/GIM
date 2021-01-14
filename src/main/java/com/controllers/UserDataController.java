@@ -5,10 +5,12 @@ import com.entities.UserCompleteDataEntity;
 import com.entities.UserDataEntity;
 import com.services.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.sql.SQLException;
 
 @RestController
@@ -30,6 +32,7 @@ public class UserDataController {
 
     @PutMapping(value = "/insertUser", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Boolean insertNewUser(@RequestBody UserCompleteDataEntity userDataToInsert) throws SQLException {
-        return userDataService.insertNewUser(userDataToInsert);
+        boolean isUserAlreadyPresent = userDataService.checkUserisAlreadyPresent(userDataToInsert);
+        return isUserAlreadyPresent  ? false :userDataService.insertNewUser(userDataToInsert);
     }
 }
