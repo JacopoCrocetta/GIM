@@ -29,7 +29,7 @@ public class UserDataController {
     }
 
     @PutMapping(value = "/insertUser", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Boolean addDecoroItem(@RequestBody UserCompleteDataEntity userDataToInsert) throws SQLException {
+    public Boolean insertNewUser(@RequestBody UserCompleteDataEntity userDataToInsert) throws SQLException {
         return userDataService.insertNewUser(userDataToInsert);
     }
 }
