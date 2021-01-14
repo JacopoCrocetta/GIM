@@ -1,6 +1,5 @@
 package com.utility;
 
-import com.entities.UtentiEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,8 +10,8 @@ public class Filters {
     public static int maxTentatives = 3;
     public static String retrievePasswordfromUser = "select p.ps from utenti u, password p where u.username_utente = ? and p.id_utente = u.id_utente";
     public static String retrieveSaltedPasswordfromUser = "select p.ps_salt from utenti u, password p where u.username_utente = ? and p.id_utente = u.id_utente";
-    public static String retrieveTentativesfromUser = "select p.try from utenti u, password p where u.username_utente = ? and p.id_utente = u.id_utente";;
-    public static String retrieveSaltedTentativesfromUser = "select p.try_salt from utenti u, password p where u.username_utente = ? and p.id_utente = u.id_utente";;;
+    public static String retrieveTentativesfromUser = "select p.try from utenti u, password p where u.username_utente = ? and p.id_utente = u.id_utente";
+    public static String retrieveSaltedTentativesfromUser = "select p.try_salt from utenti u, password p where u.username_utente = ? and p.id_utente = u.id_utente";
     public static String retrieveidUser = "select u.id_utente from utenti u where username_utente = ?";
     public static String retrieveUserMail= "select u.email_utente from utenti u where username_utente = ?";
     public static String insertNewUser = "INSERT INTO UTENTI (USERNAME_UTENTE,EMAIL_UTENTE,NOME_UTENTE,COGNOME_UTENTE,COD_OPERATORE,DAT_INS,DAT_UPD) VALUES (?,?,?,?,"+operator+",(SELECT SYSDATE()),(SELECT SYSDATE()))";
