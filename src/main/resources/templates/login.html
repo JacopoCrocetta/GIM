@@ -86,9 +86,9 @@ span.psw {
     </div>
     <label><b>Username</b></label>
     <input type="text" maxlength="512" id="uName" class="uNameField"/>
-    <!--<input type="button" value="Get Value" onclick="loadXMLDoc(uName.value)">
+    <!-- <input type="button" value="Get Value" onclick="loadXMLDoc(uName.value)">
     <input type="text" id="uName">
-    <input type="button" value="Login" onclick="alert(uName.text)">-->
+    <input type="button" value="Login" onclick="alert(uName.text)"> -->
     <label><b>Password</b></label>
     <input type="password" maxlength="512" id="psw" class="pswField"/>
     <input type="button" value="Login" onclick="loadXMLDoc()">
@@ -100,13 +100,18 @@ span.psw {
             console.log('psw', this.document.getElementById('psw').value);
 
             var requestBody = '{"user":"';
-            requestBody = requestBody + document.getElementById('uName').value + '",';
-            requestBody = requestBody + '"pwd":"'+ document.getElementById('psw').value + '"}';
+
+            console.log('requestBody', this.requestBody);
+
+            requestBody = requestBody.concat(this.document.getElementById('uName').value);
+            requestBody = requestBody.concat('","pwd":"');
+            requestBody = requestBody.concat(this.document.getElementById('uName').value);
+            requestBody = requestBody.concat('"}');
 
 
             console.log('requestBody', this.requestBody);
             requestBodyObj = JSON.parse(requestBody);
-            console.log('requestBody', this.requestBody);
+            console.log('requestBody', this.requestBodyObj);
 
 
             if (window.XMLHttpRequest) {
@@ -128,11 +133,9 @@ span.psw {
                     console.log('response', this.response); // JSON response
                 }
             };
-            xmlhttp.send(requestBody);
+            xmlhttp.send(requestBodyObj);
         }
     </script>
-
-
     <!-- Cancel Zone -->
     <div class="container" style="background-color:#f1f1f1" id="cancel">
         <button type="button" class="cancelBtn">Cancel</button>
