@@ -20,12 +20,12 @@ public class UserDataController {
     @Autowired
     UserDataService userDataService;
 
-    @PostMapping (value = "/findUser", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/findUser", consumes = MediaType.APPLICATION_JSON_VALUE)
     public SecurityEntity findUser(@RequestBody UserDataEntity userData) throws SQLException {
         return userDataService.findUser(userData);
     }
 
-    @GetMapping(value = "/findUserWithSaltedPwd", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/findUserWithSaltedPwd", consumes = MediaType.APPLICATION_JSON_VALUE)
     public SecurityEntity findUserWithSaltedPwd(@RequestBody UserDataEntity userData) throws SQLException {
         return userDataService.findUserWithSaltedPwd(userData);
     }
