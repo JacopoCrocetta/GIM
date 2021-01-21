@@ -13,4 +13,5 @@ public class SecurityEntity {
     @Id
     private Boolean ACCESS_GRANTED;
     private Boolean ACCESS_LOCKED;
+    private Boolean PWD_ERR;
 }

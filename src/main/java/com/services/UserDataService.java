@@ -56,7 +56,8 @@ public class UserDataService {
         return psTentatives;
     }
 
-    public Boolean insertNewUser(UserCompleteDataEntity userDataToInsert) throws SQLException {
+    public SecurityEntity insertNewUser(UserCompleteDataEntity userDataToInsert) throws SQLException {
+        SecurityEntity userDataInsert = new SecurityEntity();
         Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
         PreparedStatement stmt = con.prepareStatement(Filters.insertNewUser);
         stmt.setString(1, userDataToInsert.getUSER().trim());
@@ -69,8 +70,12 @@ public class UserDataService {
         stmt2.setString(2, userDataToInsert.getPWD().trim());
         stmt2.setString(3, PasswordGenerator.getNextSalt().toString());
         int pwd = stmt2.executeUpdate();
-        con.commit();
-        return user+pwd == 2;
+        if(user+pwd == 2) {
+            userDataInsert.setACCESS_GRANTED(true);
+            userDataInsert.setACCESS_LOCKED(false);
+            userDataInsert.setPWD_ERR(false);
+        }
+        return userDataInsert;
     }
 
     private int retrieveLastId(String userToSearch, Connection con) throws SQLException {
@@ -86,11 +91,16 @@ public class UserDataService {
 
     public SecurityEntity findUser(UserDataEntity userData) throws SQLException {
         SecurityEntity userDataChecks = new SecurityEntity();
+        userDataChecks.setPWD_ERR(false);
         boolean isAccessGranted = userData.getPWD().equals(getPWDfromDB(userData.getUSER()));
         updateTentatives(userData, isAccessGranted);
         userDataChecks.setACCESS_GRANTED(isAccessGranted);
         int tentativesfromDB = getTentativesfromDB(userData.getUSER());
-        System.out.println(tentativesfromDB);
+        if (tentativesfromDB > 0) {
+            System.err.println("Attenzione: utenza " + userData.getUSER() + " tentativi di accesso " +
+                    "errati: " + tentativesfromDB + " su " + Filters.maxTentatives);
+            userDataChecks.setPWD_ERR(true);
+        }
         boolean isAccessLocked = Filters.maxTentatives <= tentativesfromDB;
         if(isAccessLocked) {
             destroyPassword(userData.getUSER());
@@ -261,10 +271,10 @@ public class UserDataService {
         return psId;
     }
 
-    public boolean checkUserisAlreadyPresent(UserCompleteDataEntity userDataToInsert) throws SQLException {
+    public boolean checkUserisAlreadyPresent(String username) throws SQLException {
         Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
         PreparedStatement stmt = con.prepareStatement(Filters.checkUser);
-        stmt.setString(1, userDataToInsert.getUSER());
+        stmt.setString(1, username);
         ResultSet rs = stmt.executeQuery();
         int found = 0;
         while (rs.next()) {
@@ -273,6 +283,7 @@ public class UserDataService {
         con.close();
         return (found > 0);
     }
+
 }
 
 
