@@ -19,6 +19,7 @@ public class Filters {
     public static String insertNewPwd = "INSERT INTO PASSWORD (ID_UTENTE,PS,PS_SALT,TRY,TRY_SALT,COD_OPERATORE,DAT_INS,DAT_UPD) VALUES (?,?,?,0,0,"+operator+",(SELECT SYSDATE()),(SELECT SYSDATE()))";
     public static String updateTentatives = "UPDATE PASSWORD SET TRY=TRY+1 WHERE ID_UTENTE = ?";
     public static String updateSaltedTentatives = "UPDATE PASSWORD SET TRY_SALT=TRY_SALT+1 WHERE ID_UTENTE = ?";
+    public static String updatePassword = "UPDATE PASSWORD SET PS=?, TRY=0 WHERE ID_UTENTE = ?";
     public static String resetTentatives = "UPDATE PASSWORD SET TRY=0 WHERE ID_UTENTE = ?";
     public static String resetSaltedTentatives = "UPDATE PASSWORD SET TRY_SALT=0 WHERE ID_UTENTE = ?";
     public static String destroyUserPassword = "UPDATE PASSWORD SET PS=NULL WHERE ID_UTENTE = ?";

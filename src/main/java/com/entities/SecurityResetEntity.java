@@ -9,9 +9,10 @@ import javax.persistence.Id;
 @Data
 @Getter
 @Setter
-public class SecurityEntity {
+public class SecurityResetEntity {
     @Id
     private Boolean ACCESS_GRANTED;
     private Boolean ACCESS_LOCKED;
     private Boolean ACCESS_PWD_ERR;
+    private String ACCESS_PWD_NEW;
 }

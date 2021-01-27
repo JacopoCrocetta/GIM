@@ -4,6 +4,7 @@ import com.configs.DatasourceProperties;
 import com.configs.EmailProperties;
 import com.configs.StandardMessagesProperties;
 import com.entities.SecurityEntity;
+import com.entities.SecurityResetEntity;
 import com.entities.UserCompleteDataEntity;
 import com.entities.UserDataEntity;
 import com.utility.Filters;
@@ -73,7 +74,7 @@ public class UserDataService {
         if(user+pwd == 2) {
             userDataInsert.setACCESS_GRANTED(true);
             userDataInsert.setACCESS_LOCKED(false);
-            userDataInsert.setPWD_ERR(false);
+            userDataInsert.setACCESS_PWD_ERR(false);
         }
         return userDataInsert;
     }
@@ -91,7 +92,7 @@ public class UserDataService {
 
     public SecurityEntity findUser(UserDataEntity userData) throws SQLException {
         SecurityEntity userDataChecks = new SecurityEntity();
-        userDataChecks.setPWD_ERR(false);
+        userDataChecks.setACCESS_PWD_ERR(false);
         boolean isAccessGranted = userData.getPWD().equals(getPWDfromDB(userData.getUSER()));
         updateTentatives(userData, isAccessGranted);
         userDataChecks.setACCESS_GRANTED(isAccessGranted);
@@ -99,7 +100,7 @@ public class UserDataService {
         if (tentativesfromDB > 0) {
             System.err.println("Attenzione: utenza " + userData.getUSER() + " tentativi di accesso " +
                     "errati: " + tentativesfromDB + " su " + Filters.maxTentatives);
-            userDataChecks.setPWD_ERR(true);
+            userDataChecks.setACCESS_PWD_ERR(true);
         }
         boolean isAccessLocked = Filters.maxTentatives <= tentativesfromDB;
         if(isAccessLocked) {
@@ -109,6 +110,51 @@ public class UserDataService {
         }
         userDataChecks.setACCESS_LOCKED(isAccessLocked);
         return userDataChecks;
+    }
+
+    public SecurityResetEntity findUserWithSaltedPwd(UserDataEntity userData) throws SQLException {
+        SecurityResetEntity userDataChecks = new SecurityResetEntity();
+        userDataChecks.setACCESS_PWD_ERR(false);
+        boolean isAccessGranted = userData.getPWD().equals(getSaltedPWDfromDB(userData.getUSER()));
+        updateSaltedTentatives(userData, isAccessGranted);
+        userDataChecks.setACCESS_GRANTED(isAccessGranted);
+        int tentativesfromDB = getSaltedTentativesfromDB(userData.getUSER());
+        if (tentativesfromDB > 0) {
+            System.err.println("Attenzione: utenza " + userData.getUSER() + " tentativi di accesso " +
+                    "errati: " + tentativesfromDB + " su " + Filters.maxTentatives);
+            System.err.println("Attenzione: Password salted ERRATA!");
+            userDataChecks.setACCESS_PWD_ERR(true);
+        }
+        boolean isAccessLocked = Filters.maxTentatives <= tentativesfromDB;
+        if(isAccessLocked) {
+            destroySaltedPassword(userData.getUSER());
+            if(Filters.maxTentatives == tentativesfromDB)
+                sendEmail(userData);
+        }
+        userDataChecks.setACCESS_LOCKED(isAccessLocked);
+        if(isAccessGranted) {
+            String newPwd = PasswordGenerator.generateRandomPassword(8);
+            updatePassword(newPwd, userData.getUSER());
+            userDataChecks.setACCESS_PWD_NEW(newPwd);
+        }
+        return userDataChecks;
+    }
+
+    private void updatePassword(String newPwd, String user) throws SQLException {
+        int psId = 0;
+        Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
+        PreparedStatement stmt = con.prepareStatement(Filters.retrieveidUser);
+        stmt.setString(1, user.trim());
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            psId = rs.getInt(1);
+        }
+        PreparedStatement stmt2 = con.prepareStatement(Filters.updatePassword);
+        stmt2.setString(1, newPwd);
+        stmt2.setInt(2, psId);
+        int done = stmt2.executeUpdate();
+        System.out.println("generata nuova password per utenza: " + user);
+        con.close();
     }
 
     private void destroyPassword(String user) throws SQLException {
@@ -190,23 +236,6 @@ public class UserDataService {
         stmt2.setInt(1, psId);
         int user = stmt2.executeUpdate();
         con.close();
-    }
-
-    public SecurityEntity findUserWithSaltedPwd(UserDataEntity userData) throws SQLException {
-        SecurityEntity userDataChecks = new SecurityEntity();
-        boolean isAccessGranted = userData.getPWD().equals(getSaltedPWDfromDB(userData.getUSER()));
-        updateSaltedTentatives(userData, isAccessGranted);
-        userDataChecks.setACCESS_GRANTED(isAccessGranted);
-        int tentativesfromDB = getSaltedTentativesfromDB(userData.getUSER());
-        System.out.println(tentativesfromDB);
-        boolean isAccessLocked = Filters.maxTentatives <= tentativesfromDB;
-        if(isAccessLocked) {
-            destroySaltedPassword(userData.getUSER());
-            if(Filters.maxTentatives == tentativesfromDB)
-                sendEmail(userData);
-        }
-        userDataChecks.setACCESS_LOCKED(isAccessLocked);
-        return userDataChecks;
     }
 
     private void destroySaltedPassword(String user) throws SQLException {

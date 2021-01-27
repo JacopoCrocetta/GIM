@@ -1,6 +1,7 @@
 package com.controllers;
 
 import com.entities.SecurityEntity;
+import com.entities.SecurityResetEntity;
 import com.entities.UserCompleteDataEntity;
 import com.entities.UserDataEntity;
 import com.services.UserDataService;
@@ -29,14 +30,24 @@ public class UserDataController {
             userDataNotPresent = new SecurityEntity();
             userDataNotPresent.setACCESS_GRANTED(false);
             userDataNotPresent.setACCESS_LOCKED(false);
-            userDataNotPresent.setPWD_ERR(false);
+            userDataNotPresent.setACCESS_PWD_ERR(false);
             System.err.println("Attenzione: utenza " + userData.getUSER() + " inesistente.");
         }
         return isUserPresent  ? userDataService.findUser(userData):userDataNotPresent;
     }
 
     @PostMapping(value = "/findUserWithSaltedPwd", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SecurityEntity findUserWithSaltedPwd(@RequestBody UserDataEntity userData) throws SQLException {
+    public SecurityResetEntity findUserWithSaltedPwd(@RequestBody UserDataEntity userData) throws SQLException {
+        SecurityResetEntity userDataNotPresent = null;
+        boolean isUserPresent = userDataService.checkUserisAlreadyPresent(userData.getUSER());
+        if(!isUserPresent) {
+            userDataNotPresent = new SecurityResetEntity();
+            userDataNotPresent.setACCESS_GRANTED(false);
+            userDataNotPresent.setACCESS_LOCKED(false);
+            userDataNotPresent.setACCESS_PWD_ERR(false);
+            userDataNotPresent.setACCESS_PWD_NEW(null);
+            System.err.println("Attenzione: utenza " + userData.getUSER() + " inesistente.");
+        }
         return userDataService.findUserWithSaltedPwd(userData);
     }
 
@@ -48,9 +59,25 @@ public class UserDataController {
             userDataPresent = new SecurityEntity();
             userDataPresent.setACCESS_GRANTED(false);
             userDataPresent.setACCESS_LOCKED(true);
-            userDataPresent.setPWD_ERR(false);
+            userDataPresent.setACCESS_PWD_ERR(false);
             System.err.println("Attenzione: utenza " + userDataToInsert.getUSER() + " già presente.");
         }
         return isUserAlreadyPresent  ? userDataPresent :userDataService.insertNewUser(userDataToInsert);
     }
+
+    @PutMapping(value = "/changePassword", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public SecurityEntity insertNewUser(@RequestBody UserDataEntity userData) throws SQLException {
+        SecurityEntity userDataNotPresent = null;
+        boolean isUserPresent = userDataService.checkUserisAlreadyPresent(userData.getUSER());
+        if(!isUserPresent) {
+            userDataNotPresent = new SecurityEntity();
+            userDataNotPresent.setACCESS_GRANTED(false);
+            userDataNotPresent.setACCESS_LOCKED(false);
+            userDataNotPresent.setACCESS_PWD_ERR(false);
+            System.err.println("Attenzione: utenza " + userData.getUSER() + " inesistente.");
+        }
+        //TODO : Creare metodo!
+        return isUserPresent  ? userDataService.findUser(userData):userDataNotPresent;
+    }
+
 }
