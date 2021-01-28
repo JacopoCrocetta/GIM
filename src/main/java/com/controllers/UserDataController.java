@@ -65,19 +65,20 @@ public class UserDataController {
         return isUserAlreadyPresent  ? userDataPresent :userDataService.insertNewUser(userDataToInsert);
     }
 
-    @PutMapping(value = "/changePassword", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SecurityEntity insertNewUser(@RequestBody UserDataEntity userData) throws SQLException {
-        SecurityEntity userDataNotPresent = null;
+    @PostMapping(value = "/changePassword", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public SecurityResetEntity insertNewUser(@RequestBody UserDataEntity userData) throws SQLException {
+        SecurityResetEntity userDataNotPresent = null;
         boolean isUserPresent = userDataService.checkUserisAlreadyPresent(userData.getUSER());
         if(!isUserPresent) {
-            userDataNotPresent = new SecurityEntity();
+            userDataNotPresent = new SecurityResetEntity();
             userDataNotPresent.setACCESS_GRANTED(false);
             userDataNotPresent.setACCESS_LOCKED(false);
             userDataNotPresent.setACCESS_PWD_ERR(false);
+            userDataNotPresent.setACCESS_PWD_NEW(null);
             System.err.println("Attenzione: utenza " + userData.getUSER() + " inesistente.");
         }
-        //TODO : Creare metodo!
-        return isUserPresent  ? userDataService.findUser(userData):userDataNotPresent;
+
+        return isUserPresent  ? userDataService.changePassword(userData):userDataNotPresent;
     }
 
 }

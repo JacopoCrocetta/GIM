@@ -9,7 +9,6 @@ import com.entities.UserCompleteDataEntity;
 import com.entities.UserDataEntity;
 import com.utility.Filters;
 import com.utility.PasswordGenerator;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -313,6 +312,13 @@ public class UserDataService {
         return (found > 0);
     }
 
+    public SecurityResetEntity changePassword(UserDataEntity userData) throws SQLException {
+        SecurityResetEntity userDataChecks = new SecurityResetEntity();
+        updatePassword(userData.getPWD(), userData.getUSER());
+        userDataChecks.setACCESS_GRANTED(true);
+        userDataChecks.setACCESS_PWD_NEW(userData.getPWD());
+        return userDataChecks;
+    }
 }
 
 
