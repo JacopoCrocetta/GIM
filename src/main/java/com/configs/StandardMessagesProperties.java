@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties("msg")
+@ConfigurationProperties("msg.accountlocked")
 public class StandardMessagesProperties {
-    private String accountlocked;
+    private String sub;
+    private String msgStandard;
+    private String msgDefinitive;
 }

@@ -8,6 +8,7 @@ import com.entities.SecurityResetEntity;
 import com.entities.UserCompleteDataEntity;
 import com.entities.UserDataEntity;
 import com.utility.Filters;
+import com.utility.MailGenerator;
 import com.utility.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,15 +21,14 @@ import java.sql.*;
 import java.util.Properties;
 
 //TODO : Ottimizzare
-
 @Service
 public class UserDataService {
-    @Autowired
-    DatasourceProperties dsProp;
     @Autowired
     EmailProperties emProp;
     @Autowired
     StandardMessagesProperties msgProp;
+    @Autowired
+    DatasourceProperties dsProp;
 
     public String getPWDfromDB(String userData) throws SQLException {
         String psId = null;
@@ -104,8 +104,11 @@ public class UserDataService {
         boolean isAccessLocked = Filters.maxTentatives <= tentativesfromDB;
         if(isAccessLocked) {
             destroyPassword(userData.getUSER());
-            if(Filters.maxTentatives == tentativesfromDB)
-            sendEmail(userData);
+            if(Filters.maxTentatives == tentativesfromDB) {
+                String msgType = "accountLocked";
+                MailGenerator mailGenerator = new MailGenerator();
+                mailGenerator.sendEmail(userData, msgType, msgProp, emProp, dsProp);
+            }
         }
         userDataChecks.setACCESS_LOCKED(isAccessLocked);
         return userDataChecks;
@@ -127,8 +130,10 @@ public class UserDataService {
         boolean isAccessLocked = Filters.maxTentatives <= tentativesfromDB;
         if(isAccessLocked) {
             destroySaltedPassword(userData.getUSER());
-            if(Filters.maxTentatives == tentativesfromDB)
-                sendEmail(userData);
+            if(Filters.maxTentatives == tentativesfromDB) {
+                String msgType = "accountLockedDef";
+                MailGenerator mailGenerator = new MailGenerator();
+                mailGenerator.sendEmail(userData, msgType, msgProp, emProp, dsProp);            }
         }
         userDataChecks.setACCESS_LOCKED(isAccessLocked);
         if(isAccessGranted) {
@@ -170,51 +175,6 @@ public class UserDataService {
         stmt2.setInt(1, psId);
         int done = stmt2.executeUpdate();
         con.close();
-    }
-
-    //TODO: parametrizzare l'invio della mail in caso di account loccato per password errata o password_salted errata
-    public void sendEmail(UserDataEntity userData) throws SQLException {
-        String to = retrieveUserMail(userData.getUSER());
-        String sub ="[GIM] Messaggio importante relativo al tuo account";
-
-        //Get properties object
-        Properties props = new Properties();
-        props.put("mail.smtp.host", emProp.getHost());
-        props.put("mail.smtp.socketFactory.port", emProp.getSocketFactoryport());
-        props.put("mail.smtp.socketFactory.class", emProp.getSocketFactoryclass());
-        props.put("mail.smtp.auth", emProp.getAuth());
-        props.put("mail.smtp.port", emProp.getPort());
-        //get Session
-        Session session = Session.getDefaultInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(emProp.getUser(),emProp.getPwd());
-                    }
-                });
-        //compose message
-        try {
-            MimeMessage message = new MimeMessage(session);
-            message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
-            message.setSubject(sub);
-            message.setText(msgProp.getAccountlocked());
-            //send message
-            Transport.send(message);
-            System.out.println("email type \"AccountLocked\" sent successfully");
-        } catch (MessagingException e) {throw new RuntimeException(e);}
-
-    }
-
-    private String retrieveUserMail(String user) throws SQLException {
-        String psEmail = null;
-        Connection con = DriverManager.getConnection(dsProp.getUrl(), dsProp.getUsername(), dsProp.getPassword());
-        PreparedStatement stmt = con.prepareStatement(Filters.retrieveUserMail);
-        stmt.setString(1, user.trim());
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-            psEmail = rs.getString(1 );;
-        }
-        con.close();
-        return psEmail;
     }
 
     private void updateTentatives(UserDataEntity userData, Boolean isAccessGranted) throws SQLException {
