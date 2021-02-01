@@ -136,13 +136,13 @@ hr {
         <p>Please fill in this form to create an account.</p>
         <hr>
         <label for="email"><b>Email</b></label>
-        <input type="text" placeholder="Enter Email" name="email" required>
+        <input type="text" placeholder="Enter Email" name="email" id="email" required>
 
         <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
+        <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
 
         <label for="psw-repeat"><b>Repeat Password</b></label>
-        <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+        <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
 
         <label>
             <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
@@ -152,8 +152,40 @@ hr {
 
         <div class="clearfix">
             <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-            <button type="submit" class="signupbtn">Sign Up</button>
+            <button type="submit" class="signupbtn" onclick="loadXMLDoc()">Sign Up</button>
         </div>
+        <script>
+        function loadXMLDoc() {
+
+            const data = JSON.stringify({
+                "user"      :   "rossah",
+                "pwd"       :   this.document.getElementById('psw').value,
+                "email"     :   this.document.getElementById('email').value,
+                "name"      :   "Jacopo",
+                "surname"   :   "crocetta"
+            });
+
+            var xmlhttp= new XMLHttpRequest();
+            xmlhttp.withCredentials = true;
+
+            xmlhttp.addEventListener('readystatechange', function() {
+                if (this.readyState === this.DONE) {
+                    console.log('response', this.responseText)
+                }
+            });
+
+            xmlhttp.open("PUT", "http://localhost:8080/user/insertUser");
+            xmlhttp.setRequestHeader('content-type', 'application/json');
+
+            xmlhttp.send(data);
+
+            xmlhttp.onload = function(e) {
+                if (this.status == 200) {
+                    console.log('response', this.response); // JSON response
+                }
+            };
+        }
+    </script>
     </div>
 </body>
 </html>

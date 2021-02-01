@@ -91,9 +91,9 @@ span.psw {
     <input type="button" value="Login" onclick="alert(uName.text)"> -->
     <label><b>Password</b></label>
     <input type="password" maxlength="512" id="psw" class="pswField"/>
-    <input type="button" value="Login" onclick="loadXMLDoc()">
+    <input type="button" value="Login" onclick="sendLogin()">
     <script>
-        function loadXMLDoc() {
+        function sendLogin() {
 
             const data = JSON.stringify({
                 "user" : this.document.getElementById('uName').value,
