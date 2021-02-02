@@ -131,61 +131,84 @@ hr {
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Sign Up</h1>
-        <p>Please fill in this form to create an account.</p>
-        <hr>
-        <label for="email"><b>Email</b></label>
-        <input type="text" placeholder="Enter Email" name="email" id="email" required>
+<div class="container">
+    <h1>Sign Up</h1>
+    <p>Please fill in this form to create an account.</p>
+    <hr>
+    <label for="name"><b>Inserisci il nome</b></label>
+    <input type="text" placeholder="Inserisci il nome" name="name" id="name" required>
 
-        <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+    <label for="surname"><b>Inserisci il cognome</b></label>
+    <input type="text" placeholder="Inserisci il cognome" name="surname" id="surname" required>
 
-        <label for="psw-repeat"><b>Repeat Password</b></label>
-        <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+    <label for="user"><b>Inserisci il nome utente</b></label>
+    <input type="text" placeholder="Inserisci il nome utente" name="user" id="user" required>
 
-        <label>
-            <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
-        </label>
+    <label for="email"><b>Inserisci la tua mail</b></label>
+    <input type="text" placeholder="Inserisci la tua mail" name="email" id="email" required>
 
-        <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+    <label for="psw"><b>Inserisci la password</b></label>
+    <input type="password" placeholder="Inserisci la password" name="psw" id="psw" required>
 
-        <div class="clearfix">
-            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-            <button type="submit" class="signupbtn" onclick="loadXMLDoc()">Sign Up</button>
-        </div>
-        <script>
-        function loadXMLDoc() {
+    <label for="psw-re"><b>Ripeti la password</b></label>
+    <input type="password" placeholder="Ripeti la password" name="psw-re" id="psw-re" required>
 
-            const data = JSON.stringify({
-                "user"      :   "rossah",
-                "pwd"       :   this.document.getElementById('psw').value,
-                "email"     :   this.document.getElementById('email').value,
-                "name"      :   "Jacopo",
-                "surname"   :   "crocetta"
-            });
+    <!-- <label>
+        <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+    </label> -->
 
-            var xmlhttp= new XMLHttpRequest();
-            xmlhttp.withCredentials = true;
+    <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
 
-            xmlhttp.addEventListener('readystatechange', function() {
-                if (this.readyState === this.DONE) {
-                    console.log('response', this.responseText)
-                }
-            });
-
-            xmlhttp.open("PUT", "http://localhost:8080/user/insertUser");
-            xmlhttp.setRequestHeader('content-type', 'application/json');
-
-            xmlhttp.send(data);
-
-            xmlhttp.onload = function(e) {
-                if (this.status == 200) {
-                    console.log('response', this.response); // JSON response
-                }
-            };
-        }
-    </script>
+    <div class="clearfix">
+        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+        <button type="submit" class="signupbtn" onclick="loginAction()">Sign Up</button>
     </div>
+    <script>
+
+function loginAction() {
+    checkPassword(this.document.getElementById('psw').value, this.document.getElementById('psw-re').value);
+}
+
+function checkPassword(psw1, psw2) {
+    if (psw1 != psw2) {
+        alert("Attenzione: le password inserite non sono uguali");
+    } else {
+        loadXMLDoc()
+    }
+}
+
+function loadXMLDoc() {
+
+    const data = JSON.stringify({
+        "user": this.document.getElementById('user').value,
+        "email": this.document.getElementById('email').value,
+        "name": this.document.getElementById('name').value,
+        "surname": this.document.getElementById('surname').value,
+        "pwd": this.document.getElementById('psw').value
+    });
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.withCredentials = true;
+
+    xmlhttp.addEventListener('readystatechange', function() {
+        if (this.readyState === this.DONE) {
+            console.log('response', this.responseText)
+        }
+    });
+
+    xmlhttp.open("PUT", "http://localhost:8080/user/insertUser");
+    xmlhttp.setRequestHeader('content-type', 'application/json');
+
+    xmlhttp.send(data);
+
+    xmlhttp.onload = function(e) {
+        if (this.status == 200) {
+            console.log('response', this.response); // JSON response
+            alert('utenza generata con successo!\nTornerai alla pagina iniziale per il login.');
+        }
+    };
+}
+    </script>
+</div>
 </body>
 </html>
