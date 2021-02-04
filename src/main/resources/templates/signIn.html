@@ -136,22 +136,22 @@ hr {
     <p>Please fill in this form to create an account.</p>
     <hr>
     <label for="name"><b>Inserisci il nome</b></label>
-    <input type="text" placeholder="Inserisci il nome" name="name" id="name" required>
+    <input type="text" placeholder="Inserisci il nome" id="name" required>
 
     <label for="surname"><b>Inserisci il cognome</b></label>
-    <input type="text" placeholder="Inserisci il cognome" name="surname" id="surname" required>
+    <input type="text" placeholder="Inserisci il cognome" id="surname" required>
 
     <label for="user"><b>Inserisci il nome utente</b></label>
-    <input type="text" placeholder="Inserisci il nome utente" name="user" id="user" required>
+    <input type="text" placeholder="Inserisci il nome utente" id="user" required>
 
     <label for="email"><b>Inserisci la tua mail</b></label>
-    <input type="text" placeholder="Inserisci la tua mail" name="email" id="email" required>
+    <input type="text" placeholder="Inserisci la tua mail" id="email" required>
 
     <label for="psw"><b>Inserisci la password</b></label>
-    <input type="password" placeholder="Inserisci la password" name="psw" id="psw" required>
+    <input type="password" placeholder="Inserisci la password" id="psw" required>
 
     <label for="psw-re"><b>Ripeti la password</b></label>
-    <input type="password" placeholder="Ripeti la password" name="psw-re" id="psw-re" required>
+    <input type="password" placeholder="Ripeti la password" id="psw-re" required>
 
     <!-- <label>
         <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
@@ -179,8 +179,10 @@ function checkPassword(psw1, psw2) {
 
 function loadXMLDoc() {
 
+    var user = this.document.getElementById('user').value;
+
     const data = JSON.stringify({
-        "user": this.document.getElementById('user').value,
+        "user": user,
         "email": this.document.getElementById('email').value,
         "name": this.document.getElementById('name').value,
         "surname": this.document.getElementById('surname').value,
@@ -204,7 +206,14 @@ function loadXMLDoc() {
     xmlhttp.onload = function(e) {
         if (this.status == 200) {
             console.log('response', this.response); // JSON response
-            alert('utenza generata con successo!\nTornerai alla pagina iniziale per il login.');
+            var result = JSON.parse(this.response);
+            console.log('esito chiamata:',result.access_GRANTED);
+            if(result.access_GRANTED){
+                alert('utenza generata con successo!\nTornerai alla pagina iniziale per il login.');
+                 window.history.back();
+            } else if (result.access_LOCKED){
+                alert('Attenzione: utenza '+ user + ' già censita. Indicarne una diversa');
+            }
         }
     };
 }
