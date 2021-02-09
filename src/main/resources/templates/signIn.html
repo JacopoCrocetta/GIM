@@ -132,8 +132,8 @@ hr {
 </head>
 <body>
 <div class="container">
-    <h1>Sign Up</h1>
-    <p>Please fill in this form to create an account.</p>
+    <h1>Iscriviti</h1>
+    <p>Inserisci i tuoi dati per iniziare!</p>
     <hr>
     <label for="name"><b>Inserisci il nome</b></label>
     <input type="text" placeholder="Inserisci il nome" id="name" required>
@@ -145,7 +145,7 @@ hr {
     <input type="text" placeholder="Inserisci il nome utente" id="user" required>
 
     <label for="email"><b>Inserisci la tua mail</b></label>
-    <input type="text" placeholder="Inserisci la tua mail" id="email" required>
+    <input type="text" placeholder="Inserisci la tua mail" id="email" required onfocusout="checkMail(this)">
 
     <label for="psw"><b>Inserisci la password</b></label>
     <input type="password" placeholder="Inserisci la password" id="psw" required>
@@ -166,7 +166,22 @@ hr {
     <script>
 
 function loginAction() {
-    checkPassword(this.document.getElementById('psw').value, this.document.getElementById('psw-re').value);
+    if(checkMail(this.document.getElementById('email'))){
+        checkPassword(this.document.getElementById('psw').value, this.document.getElementById('psw-re').value);
+    }
+}
+
+function checkMail(emailField){
+      var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+        if (reg.test(emailField.value) == false)
+        {
+            alert('Attenzione! Mail inserita non valida.');
+            emailField.value=null;
+            return false;
+        }
+
+        return true;
 }
 
 function checkPassword(psw1, psw2) {
