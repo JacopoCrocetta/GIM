@@ -136,10 +136,10 @@ hr {
     <p>Inserisci i tuoi dati per iniziare!</p>
     <hr>
     <label for="name"><b>Inserisci il nome</b></label>
-    <input type="text" placeholder="Inserisci il nome" id="name" required>
+    <input type="text" placeholder="Inserisci il nome" id="name" required onfocusout="checkNameSurname(this)">
 
     <label for="surname"><b>Inserisci il cognome</b></label>
-    <input type="text" placeholder="Inserisci il cognome" id="surname" required>
+    <input type="text" placeholder="Inserisci il cognome" id="surname" required onfocusout="checkNameSurname(this)">
 
     <label for="user"><b>Inserisci il nome utente</b></label>
     <input type="text" placeholder="Inserisci il nome utente" id="user" required>
@@ -166,9 +166,26 @@ hr {
     <script>
 
 function loginAction() {
-    if(checkMail(this.document.getElementById('email'))){
-        checkPassword(this.document.getElementById('psw').value, this.document.getElementById('psw-re').value);
+    if(checkNameSurname(this.document.getElementById('name'))){
+        if(checkNameSurname(this.document.getElementById('surname'))){
+            if(checkMail(this.document.getElementById('email'))){
+                checkPassword(this.document.getElementById('psw').value, this.document.getElementById('psw-re').value);
+            }
+        }
     }
+}
+
+function checkNameSurname(nameSurname){
+    var reg = /^[A-Za-z\s]+$/;
+
+    if (reg.test(nameSurname.value) == false)
+        {
+            alert('Attenzione! nome/cognome inserito non valido.');
+            nameSurname.value=null;
+            return false;
+        }
+
+        return true;
 }
 
 function checkMail(emailField){
